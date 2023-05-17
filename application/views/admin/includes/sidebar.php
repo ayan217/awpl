@@ -16,8 +16,21 @@
 			<li class="nav-item">
 				<a class="nav-link" href="<?= ADMIN_URL ?>Users">
 					<i class="mdi mdi-grid-large menu-icon"></i>
-					<span class="menu-title">Manage Users</span>
+					<span class="menu-title">Manage Admin Users</span>
 				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-bs-toggle="collapse" href="#ui-basic1" aria-expanded="false" aria-controls="ui-basic">
+					<i class="menu-icon mdi mdi-floor-plan"></i>
+					<span class="menu-title">Manage Users</span>
+					<i class="menu-arrow"></i>
+				</a>
+				<div class="collapse" id="ui-basic1">
+					<ul class="nav flex-column sub-menu">
+						<li class="nav-item"> <a class="nav-link" href="<?= ADMIN_URL ?>Users/all_users">All</a></li>
+						<li class="nav-item"> <a class="nav-link" href="<?= ADMIN_URL ?>Users/pending_users">Pending</a></li>
+					</ul>
+				</div>
 			</li>
 		</ul>
 	</nav>

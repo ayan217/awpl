@@ -53,7 +53,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 //general pages
 $route['default_controller'] = 'Home';
-$route['user/(:num)'] = 'Home/user/$1';
+$route['about'] = 'Home/about';
+$route['faq'] = 'Home/faq';
+$route['contact'] = 'Home/contact';
+$route['login'] = 'Home/login';
+$route['signup'] = 'Home/signup';
+$route['shop-now'] = 'Home/shop_now';
+$route['cart'] = 'Home/cart';
+$route['product/(:num)'] = 'Home/product/$1';
 //general pages
 
 // admin pages

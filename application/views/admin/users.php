@@ -54,7 +54,7 @@
 										if ($user->type == 1) {
 											$type = 'Depo Admin';
 										} elseif ($user->type == 2) {
-											$type = 'Management';
+											$type = 'Management Staff';
 										}
 								?>
 										<tr>
@@ -88,22 +88,4 @@
 		</div>
 	</div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="qr_modal" tabindex="-1" role="dialog" aria-labelledby="jobinvoiceLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-body">
-				<img class="img-fluid" src="" id="show_qr" alt="">
-			</div>
-		</div>
-	</div>
-</div>
-<script>
-	$('.show_qr_btn').click(function() {
-		var name = $(this).data('qr_name');
-		var path = '<?= GET_QR ?>' + name;
-		$('#show_qr').attr('src', path).on('load', function() {
-			$('#qr_modal').modal('show');
-		});
-	});
-</script>
+

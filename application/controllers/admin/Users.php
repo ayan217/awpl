@@ -15,7 +15,7 @@ class Users extends CI_Controller
 		$data['template'] = 'users';
 		$data['title'] = 'Manage Users';
 		$data['admin_data'] = logged_in_admin_row();
-		$data['users'] = $this->UserModel->getusers();
+		$data['users'] = $this->UserModel->getadminusers();
 		$this->load->view('layout', $data);
 	}
 	public function add_user($id = null)
@@ -97,4 +97,23 @@ class Users extends CI_Controller
 			redirect($_SERVER['HTTP_REFERER'], 'refresh');
 		}
 	}
+	public function all_users()
+	{
+		$data['folder'] = 'admin';
+		$data['template'] = 'all_users';
+		$data['title'] = 'All Users';
+		$data['admin_data'] = logged_in_admin_row();
+		$data['users'] = $this->UserModel->getfrontendusers();
+		$this->load->view('layout', $data);
+	}
+	public function pending_users()
+	{
+		$data['folder'] = 'admin';
+		$data['template'] = 'pending_users';
+		$data['title'] = 'Pending Users';
+		$data['admin_data'] = logged_in_admin_row();
+		$data['users'] = $this->UserModel->getfrontendusers();
+		$this->load->view('layout', $data);
+	}
+
 }
