@@ -18,9 +18,15 @@
 						<div>
 							<h4 class="card-title">Manage Depots</h4>
 						</div>
-						<div>
-							<a href="<?= ADMIN_URL . 'Depot/add_depot' ?>" class="btn btn-primary">Add New Depot</a>
-						</div>
+						<?php
+						if (admin_type() == SUPER) {
+						?>
+							<div>
+								<a href="<?= ADMIN_URL . 'Depot/add_depot' ?>" class="btn btn-primary">Add New Depot</a>
+							</div>
+						<?php
+						}
+						?>
 					</div>
 					<hr>
 					<div class="table-responsive">
@@ -29,7 +35,13 @@
 								<tr>
 									<th>Name</th>
 									<th>Address</th>
-									<th>Action</th>
+									<?php
+									if (admin_type() == SUPER) {
+									?>
+										<th>Action</th>
+									<?php
+									}
+									?>
 								</tr>
 							</thead>
 							<tbody>
@@ -40,10 +52,16 @@
 										<tr>
 											<td><?= $depot->name ?></td>
 											<td><?= $depot->address ?></td>
-											<td>
-												<a href="<?= ADMIN_URL ?>depot/edit/<?= $depot->id ?>" class="btn btn-warning">Edit</a>
-												<a href="<?= ADMIN_URL ?>depot/delete/<?= $depot->id ?>" class="btn btn-danger">Delete</a>
-											</td>
+											<?php
+											if (admin_type() == SUPER) {
+											?>
+												<td>
+													<a href="<?= ADMIN_URL ?>depot/edit/<?= $depot->id ?>" class="btn btn-warning">Edit</a>
+													<a href="<?= ADMIN_URL ?>depot/delete/<?= $depot->id ?>" class="btn btn-danger">Delete</a>
+												</td>
+											<?php
+											}
+											?>
 										</tr>
 								<?php
 									}
@@ -59,4 +77,3 @@
 		</div>
 	</div>
 </div>
-

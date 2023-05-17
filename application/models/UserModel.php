@@ -26,9 +26,9 @@ class userModel extends CI_Model
 		$this->db->from($this->table_name);
 		$this->db->where('username', $username);
 		if ($admin_or_not == 1) {
-			$this->db->where('type', 0)->or_where('type', 1);
+			$this->db->where('type', 0)->or_where('type', 1)->or_where('type', 2);
 		} else {
-			$this->db->where('type != 1');;
+			$this->db->where('type', 3)->or_where('type', 4)->or_where('type', 5);
 		}
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {
@@ -42,7 +42,7 @@ class userModel extends CI_Model
 		$this->db->select();
 		$this->db->from($this->table_name);
 		$this->db->where('id', $id);
-		$this->db->where('type', 0)->or_where('type', 1);
+		$this->db->where('type', 0)->or_where('type', 1)->or_where('type', 2);
 
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {
@@ -52,13 +52,11 @@ class userModel extends CI_Model
 		}
 	}
 
-	public function getuser($id)
+	public function getanyuser($id)
 	{
 		$this->db->select();
 		$this->db->from($this->table_name);
 		$this->db->where('id', $id);
-		$this->db->where('acc_type', 0);
-
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {
 			return false;

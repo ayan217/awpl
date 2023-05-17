@@ -100,3 +100,11 @@ define('QR_UPLOAD', FCPATH . 'assets/qr/');
 define('GET_QR', ASSET_URL . 'qr/');
 define('GET_PROFILE', ASSET_URL . 'profile_picture/');
 define('PROFILE_UPLOAD', FCPATH . 'assets/profile_picture/');
+
+//admin types
+
+define('SUPER', 'type-0');
+define('DEPOT', 'type-1');
+define('MANAGE', 'type-2');
+
+//admin types

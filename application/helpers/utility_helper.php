@@ -29,6 +29,15 @@ function logged_in_admin_row()
 	return $CI->UserModel->getadmin($admin_id);
 }
 
+function admin_type()
+{
+	$CI = &get_instance();
+	$admin_log_data = $CI->session->userdata('admin_log_data');
+	$admin_id = $admin_log_data['user_log_id'];
+	$CI->load->model('UserModel');
+	$admin_row = $CI->UserModel->getadmin($admin_id);
+	return 'type-' . $admin_row->type;
+}
 
 //image crop and resize====================================================>
 

@@ -18,9 +18,15 @@
 						<div>
 							<h4 class="card-title">Users</h4>
 						</div>
-						<div>
-							<a href="<?= ADMIN_URL . 'Users/add_user' ?>" class="btn btn-primary">Add New User</a>
-						</div>
+						<?php
+						if (admin_type() == SUPER) {
+						?>
+							<div>
+								<a href="<?= ADMIN_URL . 'Users/add_user' ?>" class="btn btn-primary">Add New User</a>
+							</div>
+						<?php
+						}
+						?>
 					</div>
 					<hr>
 					<div class="table-responsive">
@@ -28,31 +34,45 @@
 							<thead>
 								<tr>
 									<th>Name</th>
+									<th>Username</th>
 									<th>Email</th>
 									<th>Phone</th>
 									<th>Type</th>
-									<th>Action</th>
+									<?php
+									if (admin_type() == SUPER) {
+									?>
+										<th>Action</th>
+									<?php
+									}
+									?>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 								if (!empty($users)) {
 									foreach ($users as $user) {
-										if($user->type == 1){
-											$type='Depo Admin';
-										}elseif($user->type == 2){
-											$type='Management';
+										if ($user->type == 1) {
+											$type = 'Depo Admin';
+										} elseif ($user->type == 2) {
+											$type = 'Management';
 										}
 								?>
 										<tr>
-											<td><?= $user->name ?></td>
+											<td><?= $user->full_name ?></td>
+											<td><?= $user->username ?></td>
 											<td><?= $user->email ?></td>
 											<td><?= $user->phone ?></td>
 											<td><?= $type ?></td>
-											<td>
-												<a href="<?= ADMIN_URL ?>user/edit/<?= $user->id ?>" class="btn btn-warning">Edit</a>
-												<a href="<?= ADMIN_URL ?>user/delete/<?= $user->id ?>" class="btn btn-danger">Delete</a>
-											</td>
+											<?php
+											if (admin_type() == SUPER) {
+											?>
+												<td>
+													<a href="<?= ADMIN_URL ?>user/edit/<?= $user->id ?>" class="btn btn-warning">Edit</a>
+													<a href="<?= ADMIN_URL ?>user/delete/<?= $user->id ?>" class="btn btn-danger">Delete</a>
+												</td>
+											<?php
+											}
+											?>
 										</tr>
 								<?php
 									}

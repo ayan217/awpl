@@ -53,12 +53,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 //general pages
 $route['default_controller'] = 'Home';
-$route['admin/logout'] = 'Home';
 $route['user/(:num)'] = 'Home/user/$1';
 //general pages
 
 // admin pages
 $route['admin'] = 'admin/Login';
+$route['admin/logout'] = 'admin/Login/logout';
 $route['admin/meals-report'] = 'admin/UserMeals/completed_meals';
 $route['admin/user/edit/(:num)'] = 'admin/Users/add_user/$1';
 $route['admin/user/delete/(:num)'] = 'admin/Users/delete_user/$1';
