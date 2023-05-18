@@ -106,3 +106,7 @@ define('DEPOT', 'type-1');
 define('MANAGE', 'type-2');
 
 //admin types
+
+define('FROM_MAIL', '');
+define('CURRENCY', '$');
+define('ENC_KEY', 'awplpaylinkenyc');

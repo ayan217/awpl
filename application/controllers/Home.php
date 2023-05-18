@@ -22,6 +22,7 @@ class Home extends CI_Controller
 				$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]');
 				$this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
 				$_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+				$_POST['status'] = 1;
 			} else {
 				$this->form_validation->set_rules('type', 'Distributor Type', 'required');
 				$this->form_validation->set_rules('phone', 'Phone Number', 'required');
@@ -80,5 +81,8 @@ class Home extends CI_Controller
 			$data['title'] = 'AWPL Signup';
 			$this->load->view('layout', $data);
 		}
+	}
+	public function payment($md5_id){
+		
 	}
 }

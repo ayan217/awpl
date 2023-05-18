@@ -27,7 +27,7 @@
 				</a>
 				<div class="collapse" id="ui-basic1">
 					<ul class="nav flex-column sub-menu">
-						<li class="nav-item"> <a class="nav-link" href="<?= ADMIN_URL ?>Users/all_users">All</a></li>
+						<li class="nav-item"> <a class="nav-link" href="<?= ADMIN_URL ?>Users/approved_users">Approved</a></li>
 						<li class="nav-item"> <a class="nav-link" href="<?= ADMIN_URL ?>Users/pending_users">Pending</a></li>
 					</ul>
 				</div>

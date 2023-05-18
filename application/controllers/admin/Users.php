@@ -97,13 +97,13 @@ class Users extends CI_Controller
 			redirect($_SERVER['HTTP_REFERER'], 'refresh');
 		}
 	}
-	public function all_users()
+	public function approved_users()
 	{
 		$data['folder'] = 'admin';
-		$data['template'] = 'all_users';
-		$data['title'] = 'All Users';
+		$data['template'] = 'approved_users';
+		$data['title'] = 'Approved Users';
 		$data['admin_data'] = logged_in_admin_row();
-		$data['users'] = $this->UserModel->getfrontendusers();
+		$data['users'] = $this->UserModel->getfrontendusersbystatus(1);
 		$this->load->view('layout', $data);
 	}
 	public function pending_users()
@@ -112,8 +112,46 @@ class Users extends CI_Controller
 		$data['template'] = 'pending_users';
 		$data['title'] = 'Pending Users';
 		$data['admin_data'] = logged_in_admin_row();
-		$data['users'] = $this->UserModel->getfrontendusers();
+		$data['users'] = $this->UserModel->getfrontendusersbystatus(0);
 		$this->load->view('layout', $data);
 	}
+	public function approve_user($id)
+	{
+		echo encrypt_number($id);
+		echo '<br>';
+		echo decrypt_number(encrypt_number($id));
+		die;
+		if ($this->input->post()) {
+			$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]');
+			$this->form_validation->set_rules('sdepo', 'Security Deposit', 'required|regex_match[/^\d+(\.\d+)?$/]');
+			if ($this->form_validation->run() == true) {
+				$_POST['password'] = password_hash($_POST['username'], PASSWORD_DEFAULT);
+				$_POST['status'] = 1;
+				$_POST['sdepo_status'] = 0;
+				$data = $_POST;
 
+				$this->UserModel->update_user($data, $id);
+				$this->session->set_flashdata('log_suc', 'Approved');
+				$res = array('status' => 1);
+				//send mail to the user with payment link
+				if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['HTTP_HOST'] == 'localhost') {
+					// code to run if server is localhost
+				} else {
+					// Encrypt the number
+					$encrypted_id = encrypt_number($id);
+					// code to run if server is not localhost
+					$payment_link = base_url('payment/' . $encrypted_id);
+					$user_row = $this->UserModel->getanyuser($id);
+					$to_mail = $user_row->email;
+					$subject = 'Payment link for Security Deposit - AWPL';
+					$msg = '<div>Pay: ' . CURRENCY . $data['sdepo'] . '</div><a href="' . $payment_link . '">' . $payment_link . '</a>';
+					$this->multipleNeedsModel->mail($to_mail, $subject, $msg);
+				}
+				//mail end
+			} else {
+				$res = array('status' => 0, 'error' => validation_errors());
+			}
+			echo json_encode($res);
+		}
+	}
 }

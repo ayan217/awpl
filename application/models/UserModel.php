@@ -79,11 +79,12 @@ class userModel extends CI_Model
 		}
 	}
 
-	public function getfrontendusers()
+	public function getfrontendusersbystatus($status)
 	{
 		$this->db->select();
 		$this->db->from($this->table_name);
 		$this->db->where('(type = 3 OR type = 4 OR type = 5)');
+		$this->db->where('status', $status);
 		$this->db->order_by('id', 'DESC');
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {

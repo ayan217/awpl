@@ -17,6 +17,7 @@
 	<!-- endinject -->
 	<link rel="stylesheet" href="<?= ASSET_URL ?>css/select2.min.css">
 	<link rel="stylesheet" href="<?= ASSET_URL ?>css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="<?= ASSET_URL ?>fontawesome/css/all.min.css">
 	<script src="<?= ASSET_URL . 'js/jquery-3.6.4.min.js' ?>"></script>
 </head>
 

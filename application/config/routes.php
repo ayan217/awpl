@@ -61,13 +61,14 @@ $route['signup'] = 'Home/signup';
 $route['shop-now'] = 'Home/shop_now';
 $route['cart'] = 'Home/cart';
 $route['product/(:num)'] = 'Home/product/$1';
+$route['payment/(:any)'] = 'Home/payment/$1';
 //general pages
 
 // admin pages
 $route['admin'] = 'admin/Login';
 $route['admin/logout'] = 'admin/Login/logout';
 $route['admin/meals-report'] = 'admin/UserMeals/completed_meals';
-$route['admin/user/edit/(:num)'] = 'admin/Users/add_user/$1';
+$route['admin/user/approve/(:num)'] = 'admin/Users/approve_user/$1';
 $route['admin/user/delete/(:num)'] = 'admin/Users/delete_user/$1';
 $route['admin/depot/edit/(:num)'] = 'admin/Depot/add_depot/$1';
 $route['admin/depot/delete/(:num)'] = 'admin/Depot/delete/$1';

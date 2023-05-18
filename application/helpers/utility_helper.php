@@ -295,3 +295,20 @@ function imageCropResize($imageSrc, $imageWidth, $imageHeight, $maxWidth, $maxHe
 	return $newImageLayer;
 }
 //image crop and resize====================================================>
+
+function encrypt_number($number)
+{
+	$key = ENC_KEY;
+	$cipher = 'AES-128-CBC';
+	$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
+	$encrypted_number = openssl_encrypt($number, $cipher, $key, 0, $iv);
+	return $encrypted_number;
+}
+function decrypt_number($encrypted_number)
+{
+	$key = ENC_KEY;
+	$cipher = 'AES-128-CBC';
+	$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
+	$decrypted_number = openssl_decrypt($encrypted_number, $cipher, $key, 0, $iv);
+	return $decrypted_number;
+}
