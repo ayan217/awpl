@@ -134,19 +134,3 @@ $('.slider-nav').slick({
   ]
 });
 
-//input file name upload js cstm
-var fileSelector = document.getElementById('customFile');
-fileSelector.addEventListener('change', (event) => {
-    var imageFiles = event.target.files;
-    if (imageFiles.length > 0) {
-        for (const imageFile of imageFiles) {
-            const reader = new FileReader();
-            reader.readAsDataURL(imageFile);
-            reader.addEventListener('load', () => {
-                var arr = new Array();
-                arr['type'] = imageFile.name;
-                $('#file-nm').text(arr['type']);
-            });
-        }
-    }
-});
