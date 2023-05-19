@@ -62,6 +62,7 @@ $route['shop-now'] = 'Home/shop_now';
 $route['cart'] = 'Home/cart';
 $route['product/(:num)'] = 'Home/product/$1';
 $route['payment/(:any)'] = 'Home/payment/$1';
+$route['complete-payment/(:num)'] = 'Home/complete_payment/$1';
 //general pages
 
 // admin pages

@@ -153,7 +153,7 @@
 								<div class="col-6">
 									<div class="mb-3">
 										<label for="vehicle-n" class="form-label">Vehicle No. *</label>
-										<input type="number" class="form-control inpt-fild" id="vehicle-n" name='v_number'>
+										<input type="text" class="form-control inpt-fild" id="vehicle-n" name='v_number'>
 									</div>
 								</div>
 

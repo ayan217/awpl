@@ -298,17 +298,18 @@ function imageCropResize($imageSrc, $imageWidth, $imageHeight, $maxWidth, $maxHe
 
 function encrypt_number($number)
 {
-	$key = ENC_KEY;
-	$cipher = 'AES-128-CBC';
-	$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
-	$encrypted_number = openssl_encrypt($number, $cipher, $key, 0, $iv);
-	return $encrypted_number;
+	$CI = &get_instance();
+	$CI->load->library('encryption');
+	$encryptedNumber = $CI->encryption->encrypt($number);
+	return $encryptedNumber;
 }
 function decrypt_number($encrypted_number)
 {
-	$key = ENC_KEY;
-	$cipher = 'AES-128-CBC';
-	$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
-	$decrypted_number = openssl_decrypt($encrypted_number, $cipher, $key, 0, $iv);
-	return $decrypted_number;
+	
+	$CI = &get_instance();
+	$CI->load->library('encryption');
+	$decryptedNumber = $CI->encryption->decrypt($encrypted_number);
+	echo $decryptedNumber;
+	die;
+	return $decryptedNumber;
 }

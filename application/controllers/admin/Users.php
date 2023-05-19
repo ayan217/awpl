@@ -117,10 +117,6 @@ class Users extends CI_Controller
 	}
 	public function approve_user($id)
 	{
-		echo encrypt_number($id);
-		echo '<br>';
-		echo decrypt_number(encrypt_number($id));
-		die;
 		if ($this->input->post()) {
 			$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]');
 			$this->form_validation->set_rules('sdepo', 'Security Deposit', 'required|regex_match[/^\d+(\.\d+)?$/]');
@@ -137,10 +133,7 @@ class Users extends CI_Controller
 				if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['HTTP_HOST'] == 'localhost') {
 					// code to run if server is localhost
 				} else {
-					// Encrypt the number
-					$encrypted_id = encrypt_number($id);
-					// code to run if server is not localhost
-					$payment_link = base_url('payment/' . $encrypted_id);
+					$payment_link = base_url('payment/' .$_POST['username'].'-'. $id);
 					$user_row = $this->UserModel->getanyuser($id);
 					$to_mail = $user_row->email;
 					$subject = 'Payment link for Security Deposit - AWPL';

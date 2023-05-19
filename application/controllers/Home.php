@@ -82,7 +82,41 @@ class Home extends CI_Controller
 			$this->load->view('layout', $data);
 		}
 	}
-	public function payment($md5_id){
-		
+	public function payment($link_code)
+	{
+		$explode = explode('-', $link_code);
+		$user_id = $explode[1];
+		$user_row = $this->UserModel->getanyuser($user_id);
+		$data['amount'] = $user_row->sdepo;
+		$data['user_id'] = $user_id;
+		$data['folder'] = 'frontend';
+		$data['template'] = 'payment';
+		$data['title'] = 'AWPL Payment';
+		$this->load->view('layout', $data);
+	}
+	public function complete_payment($id)
+	{
+		$data = [
+			'sdepo_status' => 1
+		];
+		if ($this->UserModel->update_user($data, $id) == true) {
+			$user_row = $this->UserModel->getanyuser($id);
+			//send mail to the user with username and password
+			if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['HTTP_HOST'] == 'localhost') {
+				// code to run if server is localhost
+			} else {
+				$username = $user_row->username;
+				$to_mail = $user_row->email;
+				$subject = 'LOGIN - AWPL';
+				$msg = '<div>Username: ' . $username . '</div><div>Password: ' . $username . '</div><a href="' . base_url('login') . '">' . base_url('login') . '</a>';
+				$this->multipleNeedsModel->mail($to_mail, $subject, $msg);
+			}
+			//mail end
+			$this->session->set_flashdata('log_suc', 'Success');
+			redirect('login');
+		} else {
+			$this->session->set_flashdata('log_err', 'Error');
+			redirect($_SERVER['HTTP_REFERER'], 'refresh');
+		}
 	}
 }
