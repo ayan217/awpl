@@ -52,7 +52,7 @@ function image_resize($data, $height, $width)
 		$tmpFileName = "tmp-" . time();
 		$thumbFileName = "resized-" . time();
 
-		$dirPath = PROFILE_UPLOAD;
+		$dirPath = UPLOAD_PATH.'products/';
 
 		$ext = pathinfo($data['name'], PATHINFO_EXTENSION);
 

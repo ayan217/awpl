@@ -22,9 +22,9 @@ class DpotModel extends CI_Model
 
 	public function getdepot($id)
 	{
-		$this->db->select();
 		$this->db->from($this->table_name);
 		$this->db->where('id', $id);
+		$this->db->select();
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {
 			return false;
