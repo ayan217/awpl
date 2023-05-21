@@ -13,6 +13,35 @@ class Home extends CI_Controller
 		$data['title'] = 'AWPL';
 		$this->load->view('layout', $data);
 	}
+	public function login()
+	{
+		if ($this->input->post()) {
+			$username = $this->input->post('username');
+			$password = $this->input->post('password');
+			//0 means non admin 1 means admin
+			if ($nameExist = $this->UserModel->checkUsernameExist($username, 0)) {
+				if (password_verify($password, $nameExist->password)) {
+					$sess_array = array(
+						'user_log_id'  => $nameExist->id,
+						'user_display' => $nameExist->username
+					);
+					$this->session->set_userdata('user_log_data', $sess_array);
+					redirect(BASE_URL, 'refresh');
+				} else {
+					$this->session->set_flashdata('log_err', 'Invalid Password !!');
+					redirect($_SERVER['HTTP_REFERER']);
+				}
+			} else {
+				$this->session->set_flashdata('log_err', 'Invalid Username !!');
+				redirect($_SERVER['HTTP_REFERER']);
+			}
+		} else {
+			$data['folder'] = 'frontend';
+			$data['template'] = 'login';
+			$data['title'] = 'AWPL Login';
+			$this->load->view('layout', $data);
+		}
+	}
 	public function signup()
 	{
 		if ($this->input->post()) {
@@ -118,5 +147,10 @@ class Home extends CI_Controller
 			$this->session->set_flashdata('log_err', 'Error');
 			redirect($_SERVER['HTTP_REFERER'], 'refresh');
 		}
+	}
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		redirect(BASE_URL, 'refresh');
 	}
 }

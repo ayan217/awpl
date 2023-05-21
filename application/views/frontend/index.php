@@ -182,11 +182,11 @@
 	</div>
 </div>
 <script>
-	$(document).ready(function() {
-		var ageConfirmation = confirm("Are you 18 or older?");
-		if (!ageConfirmation) {
-			window.history.back();
-		}
-	});
+	// $(document).ready(function() {
+	// 	var ageConfirmation = confirm("Are you 18 or older?");
+	// 	if (!ageConfirmation) {
+	// 		window.history.back();
+	// 	}
+	// });
 </script>
 <!--How Works Section-->

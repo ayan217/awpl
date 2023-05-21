@@ -7,8 +7,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 function user_login_check()
 {
 	$CI = &get_instance();
-	if (empty($CI->session->userdata('user_log'))) {
-		redirect(site_url('Login'), 'refresh');
+	if (empty($CI->session->userdata('user_log_data'))) {
+		return false;
+	} else {
+		return true;
 	}
 }
 
@@ -27,6 +29,15 @@ function logged_in_admin_row()
 	$admin_id = $admin_log_data['user_log_id'];
 	$CI->load->model('UserModel');
 	return $CI->UserModel->getadmin($admin_id);
+}
+
+function logged_in_user_row()
+{
+	$CI = &get_instance();
+	$user_log_data = $CI->session->userdata('user_log_data');
+	$user_id = $user_log_data['user_log_id'];
+	$CI->load->model('UserModel');
+	return $CI->UserModel->getuser($user_id);
 }
 
 function admin_type()
@@ -52,7 +63,7 @@ function image_resize($data, $height, $width)
 		$tmpFileName = "tmp-" . time();
 		$thumbFileName = "resized-" . time();
 
-		$dirPath = UPLOAD_PATH.'products/';
+		$dirPath = UPLOAD_PATH . 'products/';
 
 		$ext = pathinfo($data['name'], PATHINFO_EXTENSION);
 
@@ -305,7 +316,7 @@ function encrypt_number($number)
 }
 function decrypt_number($encrypted_number)
 {
-	
+
 	$CI = &get_instance();
 	$CI->load->library('encryption');
 	$decryptedNumber = $CI->encryption->decrypt($encrypted_number);

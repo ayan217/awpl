@@ -57,6 +57,7 @@ $route['about'] = 'Home/about';
 $route['faq'] = 'Home/faq';
 $route['contact'] = 'Home/contact';
 $route['login'] = 'Home/login';
+$route['logout'] = 'Home/logout';
 $route['signup'] = 'Home/signup';
 $route['shop-now'] = 'Home/shop_now';
 $route['cart'] = 'Home/cart';

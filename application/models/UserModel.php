@@ -29,6 +29,7 @@ class userModel extends CI_Model
 			$this->db->where('(type = 0 OR type = 1 OR type = 2)');
 		} else {
 			$this->db->where('(type = 3 OR type = 4 OR type = 5)');
+			$this->db->where('status', 1);
 		}
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {
@@ -43,6 +44,21 @@ class userModel extends CI_Model
 		$this->db->from($this->table_name);
 		$this->db->where('id', $id);
 		$this->db->where('(type = 0 OR type = 1 OR type = 2)');
+
+		$query = $this->db->get();
+		if ($query->num_rows() == 0) {
+			return false;
+		} else {
+			return $query->row();
+		}
+	}
+
+	public function getuser($id)
+	{
+		$this->db->select();
+		$this->db->from($this->table_name);
+		$this->db->where('id', $id);
+		$this->db->where('(type = 3 OR type = 4 OR type = 5)');
 
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {
@@ -69,7 +85,7 @@ class userModel extends CI_Model
 	{
 		$this->db->select();
 		$this->db->from($this->table_name);
-		$this->db->where('type', 1)->or_where('type', 2);
+		$this->db->where('(type = 1 OR type = 2)');
 		$this->db->order_by('id', 'DESC');
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {

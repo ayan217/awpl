@@ -107,7 +107,7 @@
 												<?php
 												if ($user->type !== '3') {
 												?>
-													<?= CURRENCY . $user->sdepo ?>&nbsp;&nbsp;<?= $user->sdepo_status == 1 ? '<i class="fa-solid fa-check text-success"></i>' : '<i class="fa-solid fa-x text-danger"></i>' ?>
+													<?= CURRENCY .' '. $user->sdepo ?>&nbsp;&nbsp;<?= $user->sdepo_status == 1 ? '<i class="fa-solid fa-check text-success"></i>' : '<i class="fa-solid fa-x text-danger"></i>' ?>
 												<?php
 												} else {
 													echo '_ _';
