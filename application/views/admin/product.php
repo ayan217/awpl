@@ -57,17 +57,29 @@
 								if (!empty($products)) {
 									foreach ($products as $product) {
 										if ($product->type == 0) {
-											$type = 'Normal';
+											$type = 'Water';
 											$exc = '_ _';
 											$df = '_ _';
 											$pdf = '_ _';
-											$tds = $product->tds;
+											$tds = $product->tds . ' %';
 										} elseif ($product->type == 1) {
 											$type = 'Alcohol';
-											$exc = $product->exc_duty;
-											$df = $product->dist_fee;
-											$pdf = $product->pri_dist_fee;
+											$exc = $product->exc_duty . ' %';
+											$df = CURRENCY . ' ' . $product->dist_fee;
+											$pdf = CURRENCY . ' ' . $product->pri_dist_fee;
 											$tds = '_ _';
+										}elseif($product->type == 2){
+											$type = 'Mask';
+											$exc = '_ _';
+											$df = '_ _';
+											$pdf = '_ _';
+											$tds = $product->tds . ' %';
+										}elseif($product->type == 3){
+											$type = 'Sanitizer';
+											$exc = '_ _';
+											$df = '_ _';
+											$pdf = '_ _';
+											$tds = $product->tds . ' %';
 										}
 								?>
 										<tr>
@@ -78,8 +90,8 @@
 											<td><?= $type ?></td>
 											<td><?= $product->depot_name ?></td>
 											<td><?= $product->size ?></td>
-											<td><?= $product->price ?></td>
-											<td><?= $product->disc ?></td>
+											<td><?= CURRENCY . ' ' . $product->price ?></td>
+											<td><?= CURRENCY . ' ' . $product->disc ?></td>
 											<td><?= $exc ?></td>
 											<td><?= $df ?></td>
 											<td><?= $pdf ?></td>

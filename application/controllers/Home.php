@@ -8,9 +8,21 @@ class Home extends CI_Controller
 	}
 	public function index()
 	{
+		$this->load->model('ProductModel');
 		$data['folder'] = 'frontend';
 		$data['template'] = 'index';
+		$dpot_id = logged_in_user_row()->dpot_id;
+		$data['products'] = $this->ProductModel->getproductbydpot($dpot_id, 4);
 		$data['title'] = 'AWPL';
+		$this->load->view('layout', $data);
+	}
+	public function shop_now(){
+		$this->load->model('ProductModel');
+		$dpot_id = logged_in_user_row()->dpot_id;
+		$data['products'] = $this->ProductModel->getproductbydpot($dpot_id);
+		$data['folder'] = 'frontend';
+		$data['template'] = 'shop';
+		$data['title'] = 'AWPL Shop';
 		$this->load->view('layout', $data);
 	}
 	public function login()
@@ -44,6 +56,7 @@ class Home extends CI_Controller
 	}
 	public function signup()
 	{
+		$this->load->model('DpotModel');
 		if ($this->input->post()) {
 			$this->form_validation->set_rules('full_name', 'Full Name', 'required');
 			$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
@@ -54,6 +67,7 @@ class Home extends CI_Controller
 				$_POST['status'] = 1;
 			} else {
 				$this->form_validation->set_rules('type', 'Distributor Type', 'required');
+				$this->form_validation->set_rules('dpot_id', 'Depot', 'required');
 				$this->form_validation->set_rules('phone', 'Phone Number', 'required');
 				$this->form_validation->set_rules('l_name', 'License Name', 'required');
 				$this->form_validation->set_rules('l_number', 'License Number', 'required');
@@ -107,6 +121,7 @@ class Home extends CI_Controller
 		} else {
 			$data['folder'] = 'frontend';
 			$data['template'] = 'signup';
+			$data['depos'] = $this->DpotModel->getdepots();
 			$data['title'] = 'AWPL Signup';
 			$this->load->view('layout', $data);
 		}

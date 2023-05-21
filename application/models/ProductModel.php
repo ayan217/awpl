@@ -45,15 +45,34 @@ class ProductModel extends CI_Model
             return $query->row();
         }
     }
+    public function getproductbydpot($dpot_id, $limit = null, $type = null)
+    {
+        $this->db->select();
+        $this->db->from($this->table_name);
+        $this->db->where('dpot_id', $dpot_id);
+        if ($limit !== null) {
+            $this->db->limit($limit);
+        }
+        if ($type !== null) {
+            $this->db->where('type', $type);
+        }
+        $this->db->order_by('rand()');
+        $query = $this->db->get();
+        if ($query->num_rows() == 0) {
+            return false;
+        } else {
+            return $query->result();
+        }
+    }
     public function update_product($data, $id)
-	{
-		$this->db->where('id', $id);
-		if ($this->db->update($this->table_name, $data)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    {
+        $this->db->where('id', $id);
+        if ($this->db->update($this->table_name, $data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public function delete_product($id)
     {
         $this->db->where('id', $id);

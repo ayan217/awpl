@@ -124,16 +124,27 @@
 
 								<div class="col-6">
 									<div class="mb-3">
-										<label for="location" class="form-label">Address *</label>
-										<input type="text" class="form-control inpt-fild" id="location" name='address'>
+									<label for="city" class="form-label">Depot*</label>	
+									<select name="dpot_id" class="form-select inpt-fild" aria-label="Default select example">
+									<option value="" selected>Select Depo</option>
+									<?php
+									if (!empty($depos)) {
+										foreach ($depos as $depo) {
+									?>
+											<option value="<?= $depo->id ?>"><?= $depo->name ?></option>
+									<?php
+										}
+									}
+									?>
+                                        </select>
 									</div>
 								</div>
 							</div>
 
-							<!-- <div class="mb-3">
-                                <label for="address" class="form-label">Address *</label>
-                                <input type="text" class="form-control inpt-fild" id="address">
-                            </div> -->
+							<div class="mb-3">
+								<label for="location" class="form-label">Address *</label>
+								<input type="text" class="form-control inpt-fild" id="location" name='address'>
+							</div>
 
 							<div class="row">
 								<div class="col-6">

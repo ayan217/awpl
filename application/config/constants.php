@@ -108,5 +108,5 @@ define('MANAGE', 'type-2');
 //admin types
 
 define('FROM_MAIL', '');
-define('CURRENCY', 'BTN');
+define('CURRENCY', 'Nu');
 define('ENC_KEY', 'awplpaylinkenyc');

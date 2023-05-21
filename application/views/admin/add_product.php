@@ -50,8 +50,23 @@
 							<div class="form-group">
 								<label for="exampleInputEmail1">Product Type</label>
 								<div>
-									<label for="type1">Normal<input <?= (!empty($product_data) && $product_data->type == 0) ? 'checked' : 'disabled' ?> id="type1" type="radio" name="type" value="0"></label>
-									<label for="type2">Alcohol<input <?= (!empty($product_data) && $product_data->type == 1) ? 'checked' : 'disabled' ?> id="type2" type="radio" name="type" value="1"></label>
+									<?php
+									if (!empty($product_data)) {
+									?>
+										<label for="type1">Water<input <?= ($product_data->type == 0) ? 'checked' : 'disabled' ?> id="type1" type="radio" name="type" value="0"></label>
+										<label for="type3">Mask<input <?= ($product_data->type == 2) ? 'checked' : 'disabled' ?> id="type3" type="radio" name="type" value="2"></label>
+										<label for="type4">Sanitizer<input <?= ($product_data->type == 3) ? 'checked' : 'disabled' ?> id="type4" type="radio" name="type" value="3"></label>
+										<label for="type2">Alcohol<input <?= ($product_data->type == 1) ? 'checked' : 'disabled' ?> id="type2" type="radio" name="type" value="1"></label>
+									<?php
+									} else {
+									?>
+										<label for="type1">Water<input id="type1" type="radio" name="type" value="0"></label>
+										<label for="type3">Mask<input id="type3" type="radio" name="type" value="2"></label>
+										<label for="type4">Sanitizer<input id="type4" type="radio" name="type" value="3"></label>
+										<label for="type2">Alcohol<input id="type2" type="radio" name="type" value="1"></label>
+									<?php
+									}
+									?>
 								</div>
 							</div>
 							<div class="form-group">
@@ -115,12 +130,14 @@
 
 	function pd_type() {
 		var val = $('input[name="type"]:checked').val();
-		if (val == 0) {
-			$('#normal_block').show();
-			$('#alcohol_block').hide();
-		} else if (val == 1) {
-			$('#normal_block').hide();
-			$('#alcohol_block').show();
+		if (val) {
+			if (val == 1) {
+				$('#normal_block').hide();
+				$('#alcohol_block').show();
+			} else {
+				$('#normal_block').show();
+				$('#alcohol_block').hide();
+			}
 		}
 	}
 	$('#product_form').submit(function(e) {

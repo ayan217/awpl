@@ -13,7 +13,7 @@
 				<div class="banner-text">
 					<h1>Buy Products</h1>
 					<h6>Form Army welfare project Limited </h6>
-					<a href="#" class="btn btn-same-all">Shop Now</a>
+					<a href="<?=base_url('shop-now')?>" class="btn btn-same-all">Shop Now</a>
 				</div>
 			</div>
 			<div class="col-md-6"></div>
@@ -57,54 +57,26 @@
 					<h2>Products</h2>
 				</div>
 			</div>
+			<?php
+			if (!empty($products)) {
+				foreach ($products as $product) {
+			?>
+					<div class="col-md-3 mob-width-50">
+						<div class="prodect-dtls">
+							<div class="prodect-img">
+								<img src="<?= GET_UPLOADS . 'products/' . $product->f_img ?>" alt="product" class="img-fluid">
+							</div>
+							<p><?= $product->name ?></p>
+							<div class="text-center">
+								<a href="<?=base_url('product/'.$product->id)?>" class="product-btn">Shop Now</a>
+							</div>
+						</div>
+					</div>
+			<?php
+				}
+			}
+			?>
 
-			<div class="col-md-3 mob-width-50">
-				<div class="prodect-dtls">
-					<div class="prodect-img">
-						<img src="<?= ASSET_URL ?>frontend/images/p1.png" alt="product" class="img-fluid">
-					</div>
-					<p>Liquors</p>
-					<div class="text-center">
-						<a href="#" class="product-btn">Shop Now</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-3 mob-width-50">
-				<div class="prodect-dtls">
-					<div class="prodect-img">
-						<img src="<?= ASSET_URL ?>frontend/images/p2.png" alt="product" class="img-fluid">
-					</div>
-					<p>Water</p>
-					<div class="text-center">
-						<a href="#" class="product-btn">Shop Now</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-3 mob-width-50">
-				<div class="prodect-dtls">
-					<div class="prodect-img">
-						<img src="<?= ASSET_URL ?>frontend/images/p3.png" alt="product" class="img-fluid">
-					</div>
-					<p>Masks</p>
-					<div class="text-center">
-						<a href="#" class="product-btn">Shop Now</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-3 mob-width-50">
-				<div class="prodect-dtls">
-					<div class="prodect-img">
-						<img src="<?= ASSET_URL ?>frontend/images/p4.png" alt="product" class="img-fluid">
-					</div>
-					<p>Sanitizers</p>
-					<div class="text-center">
-						<a href="#" class="product-btn">Shop Now</a>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
@@ -121,7 +93,7 @@
 					<div class="all-use-txt">
 						<h2 class="mb-2" style="color: #db651d;">Distributors</h2>
 						<p class="mb-4">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. </p>
-						<a href="#" class="btn btn-same-all">Register Now</a>
+						<a href="<?=base_url('signup')?>" class="btn btn-same-all">Register Now</a>
 					</div>
 				</div>
 			</div>
