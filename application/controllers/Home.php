@@ -25,6 +25,18 @@ class Home extends CI_Controller
 		$data['title'] = 'AWPL Shop';
 		$this->load->view('layout', $data);
 	}
+	public function product($id){
+		$this->load->model('ProductModel');
+		$product_row = $this->ProductModel->getproduct($id);
+		$product_type = $product_row->type;
+		$dpot_id = logged_in_user_row()->dpot_id;
+		$data['products'] = $this->ProductModel->getproductbydpot($dpot_id,null,$product_type);
+		$data['product'] = $product_row;
+		$data['folder'] = 'frontend';
+		$data['template'] = 'product';
+		$data['title'] = 'AWPL Shop';
+		$this->load->view('layout', $data);
+	}
 	public function login()
 	{
 		if ($this->input->post()) {
