@@ -73,8 +73,8 @@ $route['admin/user/approve/(:num)'] = 'admin/Users/approve_user/$1';
 $route['admin/user/delete/(:num)'] = 'admin/Users/delete_user/$1';
 $route['admin/depot/edit/(:num)'] = 'admin/Depot/add_depot/$1';
 $route['admin/depot/delete/(:num)'] = 'admin/Depot/delete/$1';
-$route['admin/event/edit/(:num)'] = 'admin/Events/add_event/$1';
-$route['admin/event/delete/(:num)'] = 'admin/Events/delete_event/$1';
+$route['admin/product/edit/(:num)'] = 'admin/Products/add_product/$1';
+$route['admin/product/delete/(:num)'] = 'admin/Products/delete/$1';
 $route['admin/user-meals'] = 'admin/UserMeals';
 $route['admin/user-meal/delete/(:num)'] = 'admin/UserMeals/delete/$1';
 // admin pages

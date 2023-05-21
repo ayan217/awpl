@@ -26,7 +26,7 @@
 					</div>
 					<input type="file" id="file-upload" style="display:none;">
 					<form id="product_form" class="forms-sample" method="post" action="<?= ADMIN_URL ?><?= !empty($product_data) ? 'Products/edit/' . $product_data->id : 'Products/add_product' ?>" enctype="multipart/form-data">
-						<input type="hidden" name="f_img" required>
+						<input type="hidden" name="f_img" required value="<?= !empty($product_data) ? $product_data->f_img : null ?>">
 						<div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Depo Name</label>
@@ -36,7 +36,7 @@
 									if (!empty($depos)) {
 										foreach ($depos as $depo) {
 									?>
-											<option value="<?= $depo->id ?>"><?= $depo->name ?></option>
+											<option <?= (!empty($product_data) && $product_data->dpot_id == $depo->id) ? 'selected' : '' ?> value="<?= $depo->id ?>"><?= $depo->name ?></option>
 									<?php
 										}
 									}
@@ -50,8 +50,8 @@
 							<div class="form-group">
 								<label for="exampleInputEmail1">Product Type</label>
 								<div>
-									<label for="type1">Normal<input id="type1" type="radio" name="type" value="0"></label>
-									<label for="type2">Alcohol<input checked id="type2" type="radio" name="type" value="1"></label>
+									<label for="type1">Normal<input <?= (!empty($product_data) && $product_data->type == 0) ? 'checked' : 'disabled' ?> id="type1" type="radio" name="type" value="0"></label>
+									<label for="type2">Alcohol<input <?= (!empty($product_data) && $product_data->type == 1) ? 'checked' : 'disabled' ?> id="type2" type="radio" name="type" value="1"></label>
 								</div>
 							</div>
 							<div class="form-group">
@@ -70,7 +70,7 @@
 								<label for="exampleInputEmail1">DISCOUNT </label>
 								<input required type="text" name="disc" placeholder="" class="form-control" value="<?= !empty($product_data) ? $product_data->disc : null ?>">
 							</div>
-							<div id="alcohol_block">
+							<div id="alcohol_block" style="display: none;">
 								<div class="form-group">
 									<label for="exampleInputEmail1">Excise Duty Rate %</label>
 									<input type="text" name="exc_duty" placeholder="" class="form-control" value="<?= !empty($product_data) ? $product_data->exc_duty : null ?>">
@@ -92,7 +92,7 @@
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">IN STOCK</label>
-								<input type="checkbox" name="in_stock" class="" value="0">
+								<input <?= (!empty($product_data) && $product_data->in_stock == 0) ? 'checked' : '' ?> type="checkbox" name="in_stock" class="" value="0">
 							</div>
 						</div>
 						<button type="submit" class="btn btn-success"><?= !empty($product_data) ? 'Update' : 'Add' ?></button>
@@ -106,17 +106,23 @@
 
 
 <script>
+	$(document).ready(function() {
+		pd_type();
+	});
 	$('input[name="type"]').click(function(e) {
-		var val = $(this).val();
+		pd_type();
+	});
+
+	function pd_type() {
+		var val = $('input[name="type"]:checked').val();
 		if (val == 0) {
 			$('#normal_block').show();
 			$('#alcohol_block').hide();
-		} else {
+		} else if (val == 1) {
 			$('#normal_block').hide();
 			$('#alcohol_block').show();
 		}
-
-	});
+	}
 	$('#product_form').submit(function(e) {
 		e.preventDefault();
 

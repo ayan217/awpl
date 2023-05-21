@@ -97,12 +97,91 @@ class Products extends CI_Controller
 				$data['depos'] = $this->DpotModel->getdepots();
 			} else {
 				$data['title'] = 'Edit Depot';
-				$data['depot_data'] = $this->DpotModel->getdepot($id);
+				$data['depos'] = $this->DpotModel->getdepots();
+				$data['product_data'] = $this->ProductModel->getproduct($id);
 			}
 			$data['folder'] = 'admin';
 			$data['admin_data'] = logged_in_admin_row();
 			$data['template'] = 'add_product';
 			$this->load->view('layout', $data);
+		}
+	}
+	public function edit($id)
+	{
+		if ($this->input->post()) {
+			$product_row = $this->ProductModel->getproduct($id);
+			$this->form_validation->set_rules('name', 'Brand Name', 'required');
+			$this->form_validation->set_rules('dpot_id', 'Depo Name', 'required');
+			$this->form_validation->set_rules('type', 'Product Type', 'required');
+			$this->form_validation->set_rules('f_img', 'Featured Image', 'required');
+			$this->form_validation->set_rules('size', 'Product Size', 'required');
+			$this->form_validation->set_rules('price', 'Rate Per Case', 'required|regex_match[/^\d+(\.\d{1,2})?$/]');
+			$this->form_validation->set_rules('disc', 'Discount', 'required|regex_match[/^\d+(\.\d{1,2})?$/]');
+			if ($_POST['type'] == 1) {
+				$this->form_validation->set_rules('exc_duty', 'Excise Duty', 'required|regex_match[/^\d+(\.\d{1,2})?$/]');
+				$this->form_validation->set_rules('dist_fee', 'DIST PERT FEE', 'required|regex_match[/^\d+(\.\d{1,2})?$/]');
+				$this->form_validation->set_rules('pri_dist_fee', 'PRINCIPAL DIST FEE', 'required|regex_match[/^\d+(\.\d{1,2})?$/]');
+			} else {
+				$this->form_validation->set_rules('tds', 'TDS %', 'required|regex_match[/^\d+(\.\d{1,2})?$/]');
+			}
+			if ($this->form_validation->run() == TRUE) {
+				$file_name_array = array();
+				if (!isset($_POST['in_stock'])) {
+					$_POST['in_stock'] = 1;
+				} else {
+					$_POST['in_stock'] = 0;
+				}
+
+				// multiple slider images upload code
+				if (!empty($_FILES['files']['name'][0])) {
+					// Create a folder to store the images
+					$folderPath = UPLOAD_PATH . 'products/';
+					if (!is_dir($folderPath)) {
+						mkdir($folderPath, 0777, true);
+					}
+
+					// Handle file uploads
+					$files = $_FILES['files'];
+					$fileCount = count($files['name']);
+					$file_name_array = array(); // Array to store the file names
+
+					for ($i = 0; $i < $fileCount; $i++) {
+						// Check if the uploaded file is an image
+						if (getimagesize($files['tmp_name'][$i])) {
+							$fileExt = pathinfo($files['name'][$i], PATHINFO_EXTENSION);
+							$fileName = uniqid() . '.' . $fileExt;
+							$filePath = $folderPath . $fileName;
+
+							// Move the uploaded file to the destination folder
+							if (move_uploaded_file($files['tmp_name'][$i], $filePath)) {
+								$file_name_array[] = $fileName;
+							} else {
+								// Error in file upload
+								$error = 'Error in moving uploaded file.';
+								$res = array('status' => 0, 'err' => $error);
+								echo json_encode($res);
+								return;
+							}
+						}
+					}
+				}
+				// multiple slider images upload code
+				if (!empty($file_name_array)) {
+					$_POST['s_imgs'] = implode(',', $file_name_array);
+				} else {
+					$_POST['s_imgs'] = $product_row->s_imgs;
+				}
+				$data = $_POST;
+				if ($this->ProductModel->update_product($data, $id) !== false) {
+					$this->session->set_flashdata('log_suc', 'Product Updated');
+					$res = array('status' => 1);
+				} else {
+					$res = array('status' => 0, 'err' => 'Something Went Wrong...!!');
+				}
+			} else {
+				$res = array('status' => 0, 'err' => validation_errors());
+			}
+			echo json_encode($res);
 		}
 	}
 	public function image_upload($height = null, $width = null)
@@ -135,5 +214,15 @@ class Products extends CI_Controller
 			}
 		}
 		echo json_encode($res);
+	}
+	public function delete($id)
+	{
+		if ($this->ProductModel->delete_product($id) == true) {
+			$this->session->set_flashdata('log_suc', 'Product Deleted');
+			redirect('admin/Products', 'refresh');
+		} else {
+			$this->session->set_flashdata('log_err', 'Something Went Wrong..!!');
+			redirect($_SERVER['HTTP_REFERER'], 'refresh');
+		}
 	}
 }

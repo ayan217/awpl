@@ -34,14 +34,15 @@
 							<thead>
 								<tr>
 									<th>Name</th>
+									<th>Type</th>
+									<th>Depot</th>
 									<th>Size</th>
 									<th>Rate Per Case</th>
 									<th>Discount</th>
-									<th>Net</th>
-									<th>Excise Duty Rate</th>
-									<th>Excise Duty Per C/S</th>
+									<th>Excise Duty Rate %</th>
 									<th>Dist Pert Fee</th>
 									<th>Principal Dist Fee</th>
+									<th>TDS %</th>
 									<?php
 									if (admin_type() == SUPER) {
 									?>
@@ -52,7 +53,54 @@
 								</tr>
 							</thead>
 							<tbody>
-
+								<?php
+								if (!empty($products)) {
+									foreach ($products as $product) {
+										if ($product->type == 0) {
+											$type = 'Normal';
+											$exc = '_ _';
+											$df = '_ _';
+											$pdf = '_ _';
+											$tds = $product->tds;
+										} elseif ($product->type == 1) {
+											$type = 'Alcohol';
+											$exc = $product->exc_duty;
+											$df = $product->dist_fee;
+											$pdf = $product->pri_dist_fee;
+											$tds = '_ _';
+										}
+								?>
+										<tr>
+											<td>
+												<img src="<?= GET_UPLOADS . 'products/' . $product->f_img ?>" alt="">&nbsp;&nbsp;&nbsp;
+												<?= $product->name ?>
+											</td>
+											<td><?= $type ?></td>
+											<td><?= $product->depot_name ?></td>
+											<td><?= $product->size ?></td>
+											<td><?= $product->price ?></td>
+											<td><?= $product->disc ?></td>
+											<td><?= $exc ?></td>
+											<td><?= $df ?></td>
+											<td><?= $pdf ?></td>
+											<td><?= $tds ?></td>
+											<?php
+											if (admin_type() == SUPER) {
+											?>
+												<td>
+													<a href="<?= ADMIN_URL ?>product/edit/<?= $product->id ?>" class="btn btn-warning">Edit</a>
+													<a href="<?= ADMIN_URL ?>product/delete/<?= $product->id ?>" class="btn btn-danger">Delete</a>
+												</td>
+											<?php
+											}
+											?>
+										</tr>
+								<?php
+									}
+								} else {
+									echo '<tr><td align="center" colspan="9">No Dpots Found</td></tr>';
+								}
+								?>
 							</tbody>
 						</table>
 					</div>
