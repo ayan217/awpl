@@ -1,0 +1,362 @@
+/* bootstrap strat */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  a:hover {
+    color: inherit;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: 0;
+    /* all: unset; */
+    font-weight: unset;
+    line-height: inherit;
+  }
+  
+  button {
+    outline: none;
+    background: none;
+    background-color: none;
+    border: none;
+    color: inherit;
+    font-size: inherit;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* body {
+      min-height: 10000px;
+  } */
+  
+  input:hover,
+  input:focus,
+  textarea:hover,
+  textarea:focus,
+  input,
+  textarea {
+    outline: none;
+    /* border: none; */
+  }
+  
+  dl,
+  ol,
+  ul {
+    margin-bottom: 0;
+  }
+  
+  ol,
+  ul {
+    padding-left: 0;
+  }
+  
+  p {
+    margin-bottom: 0;
+  }
+  
+  /* bootstrap end */
+/* google fonts  */
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+
+
+
+
+
+@font-face {
+    font-family:"Rubik-Bold" ;
+    src: url(../font/Rubik-Bold.ttf);
+}
+
+@font-face {
+    font-family:"Rubik-mid" ;
+    src: url(../font/Rubik-Medium.ttf);
+}
+@font-face {
+  font-family:"Poppins-Regular" ;
+  src: url(../font/Poppins-Regular.ttf);
+}
+@font-face {
+  font-family:"Poppins-Medium" ;
+  src: url(../font/Poppins-Medium.ttf);
+}
+@font-face {
+  font-family:"Poppins-SemiBold" ;
+  src: url(../font/Poppins-SemiBold.ttf);
+}
+
+
+/* google fonts end  */
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+
+  .center-logs {
+    text-align: center;
+  }
+  .btns-nav {
+    margin-right: 25px;
+  }
+
+
+  .navbtn-txt {
+    color: #161616;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 100;
+    font-family: 'Poppins-SemiBold';
+  }
+
+  .ritbtns {
+    margin-right: 35px;
+  }
+  .counter {
+    background: #db651d;
+    color: #fff;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 50%;
+    position: relative;
+    right: 19px;
+  }
+  .nav-main {
+    padding-top: 30px;
+  }
+.center-logs {
+  margin-bottom: -77px;
+  margin-top: -35px
+}
+  .container-custum {
+    max-width: 1480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bukts-login {
+    color: #161616;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .bukts-signup {
+    padding: 15px 25px;
+    background: #db651d;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 10px;
+    text-transform: uppercase;
+  }
+  .sociallink {
+    padding: 0px 14px;
+    font-size: 18px;
+  }
+
+
+
+.bannerimgas{
+    background: url(../images/banner-img.jpg);
+    background-repeat: repeat;
+    background-size: auto;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 287px;
+  padding-bottom: 404px;
+}
+.bannertext {
+    font-family:"Rubik-Bold" ;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #222222;
+    font-size: 70px;
+  }
+  .subtext-banner {
+    font-size: 27px;
+    text-transform: capitalize;
+    color: #db651d;
+    font-weight: 600;
+    font-family:"Rubik-mid" ;
+  }
+  .shopnoew-bnr {
+    padding: 28px 60px;
+      padding-top: 28px;
+      padding-right: 60px;
+      padding-bottom: 28px;
+      padding-left: 60px;
+    background: #db651d;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 11px;
+    font-weight: 600;
+  }
+  .shopnowbtn {
+    padding-top: 70px;
+    padding-bottom: 30px;
+  }
+
+  .about-us{
+    background: url(../images/about.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 205px;
+    padding-bottom: 205px;
+  }
+
+  .about-headree{
+    font-family:"Rubik-Bold" ;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #222222;
+    font-size: 55px;
+  }
+  .text-section {
+    font-size: 18px;
+    width: 57%;
+    max-width: 636px;
+  }
+  .text-section {
+    font-size: 18px;
+    width: 57%;
+    max-width: 636px;
+    padding-top: 20px;
+    color: #555;
+  }
+  .product{
+    background: url(../images/product-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+  }
+
+  .displayflex-custom {
+    display: flex;
+    justify-content: space-between;
+  }
+  .div2pro {
+    background: #fff;
+    padding: 10px 10px;
+    border-radius: 8px;
+    border: 1px solid #d9d9d9;
+    text-align: center;
+  }
+
+  .divimg-pro {
+    width: 100%;
+    height: auto;
+  }
+  .div1-pro {
+    text-align: center;
+  }
+
+  .shownoerw {
+    padding: 11px 30px;
+    color: #db651d;
+    border: 1px solid #db651d;
+    border-radius: 10px;
+    text-transform: capitalize;
+    font-weight: 600;
+  }
+  .producttext1 {
+    font-size: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .producttext1 {
+    font-size: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 500;
+    color: #555;
+  }
+  .displayflex-custom {
+    padding-top: 30px;
+  }
+  .product {
+    padding-top: 94px;
+    padding-bottom: 94px;
+  }
+
+  .distributions{
+
+    background: url(../images/distribution-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+  }
+
+
+  .distributions-divs {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 545px;
+  }
+  .about-headree.color-cngd {
+    color: #db651d;
+  }
+  .distributions {
+    padding-top: 140px;
+    padding-bottom: 141px;
+  }
+  .distributioa {
+    color: #555;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+
+  .textfloatimg {
+    position: absolute;
+    right: 0;
+    margin-top: 40px;
+  }
+
+  .howit-work{
+    background: #db651d;
+    }
+    .about-headree.color-white {
+  text-align: center;
+  color: #fff;
+}
+.howit-work {
+  padding-top: 100px;
+}
+.round-steps {
+  width: 150px;
+  height: 150px;
+  background: #fff;
+  padding-top: 43px;
+  text-align: center;
+  border-radius: 50%;
+  position: relative;
+  z-index: 5;
+}
+.abslur {
+  position: absolute;
+  font-family:"Rubik-Bold" ;
+  color:#df7534;
+}
+
+.abslur {
+  position: absolute;
+  font-family: "Rubik-Bold";
+  color: #df7534;
+  font-size: 238px;
+  margin-top: -97px;
+  margin-left: -88px;
+  z-index: 2;
+}
