@@ -45,6 +45,27 @@ class ProductModel extends CI_Model
 			return $query->row();
 		}
 	}
+	public function getproductcalculateddetails($product_id, $user_id = null)
+	{
+		$product_row = $this->getproduct($product_id);
+		$actual_price = $product_row->price;
+		$discount = $product_row->disc;
+		$net_amount = $actual_price - $discount;
+		if ($product_row->type == 1) {
+			$excise_duty_rate = $product_row->exc_duty;
+			$excise_duty_amount = ($net_amount * $excise_duty_rate) / 100;
+			$dist_fee_amount = $product_row->dist_fee;
+			$pri_fee_amount = $product_row->pri_dist_fee;
+			$total_product_price = $net_amount + $excise_duty_amount + $dist_fee_amount + $pri_fee_amount;
+			$data = compact('actual_price', 'net_amount', 'excise_duty_amount', 'total_product_price');
+		} else {
+			$tds_rate = $product_row->tds;
+			$tds_amount = ($net_amount * $tds_rate) / 100;
+			$total_product_price = $net_amount - $tds_amount;
+			$data = compact('actual_price', 'net_amount', 'tds_amount', 'total_product_price');
+		}
+		return $data;
+	}
 	public function getproductbydpot($dpot_id = null, $limit = null, $type = null, $rand = 1)
 	{
 		$dpot_table = 'dpots';

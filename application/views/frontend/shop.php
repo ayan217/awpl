@@ -82,107 +82,113 @@
 							?>
 						</div>
 					</div>
-					<div class="row tab-pane fade" id="water" role="tabpanel" aria-labelledby="water-tab">
-						<?php
-						$this->load->model('ProductModel');
-						if (user_login_check() == true) {
-							$w_products = $this->ProductModel->getproductbydpot(logged_in_user_row()->dpot_id, null, 0);
-						} else {
-							$w_products = $this->ProductModel->getproductbydpot(null, null, 0);
-						}
-						if (!empty($w_products)) {
-							foreach ($w_products as $w_product) {
-						?>
-								<div class="col-md-3 w-mob-50">
-									<a href="<?= base_url('product/' . $w_product->id) ?>">
-										<div class="product-all-list">
-											<div class="list-product-img">
-												<img src="<?= GET_UPLOADS . 'products/' . $w_product->f_img ?>" alt="img" class="img-fluid">
-											</div>
-											<p><?= $w_product->name ?></p>
-											<?php
-											if (user_login_check() == true) {
-											?>
-												<span><?= CURRENCY . ' ' . $w_product->price ?></span>
-											<?php
-											}
-											?>
-										</div>
-									</a>
-								</div>
-
-						<?php
+					<div class="tab-pane fade" id="water" role="tabpanel" aria-labelledby="water-tab">
+						<div class="row">
+							<?php
+							$this->load->model('ProductModel');
+							if (user_login_check() == true) {
+								$w_products = $this->ProductModel->getproductbydpot(logged_in_user_row()->dpot_id, null, 0);
+							} else {
+								$w_products = $this->ProductModel->getproductbydpot(null, null, 0);
 							}
-						}
-						?>
+							if (!empty($w_products)) {
+								foreach ($w_products as $w_product) {
+							?>
+									<div class="col-md-3 w-mob-50">
+										<a href="<?= base_url('product/' . $w_product->id) ?>">
+											<div class="product-all-list">
+												<div class="list-product-img">
+													<img src="<?= GET_UPLOADS . 'products/' . $w_product->f_img ?>" alt="img" class="img-fluid">
+												</div>
+												<p><?= $w_product->name ?></p>
+												<?php
+												if (user_login_check() == true) {
+												?>
+													<span><?= CURRENCY . ' ' . $w_product->price ?></span>
+												<?php
+												}
+												?>
+											</div>
+										</a>
+									</div>
+
+							<?php
+								}
+							}
+							?>
+						</div>
 					</div>
 					<div class="tab-pane fade" id="mask" role="tabpanel" aria-labelledby="mask-tab">
-						<?php
-						$this->load->model('ProductModel');
-						if (user_login_check() == true) {
-							$m_products = $this->ProductModel->getproductbydpot(logged_in_user_row()->dpot_id, null, 2);
-						} else {
-							$m_products = $this->ProductModel->getproductbydpot(null, null, 2);
-						}
-						if (!empty($m_products)) {
-							foreach ($m_products as $m_product) {
-						?>
-								<div class="col-md-3 w-mob-50">
-									<a href="<?= base_url('product/' . $m_product->id) ?>">
-										<div class="product-all-list">
-											<div class="list-product-img">
-												<img src="<?= GET_UPLOADS . 'products/' . $m_product->f_img ?>" alt="img" class="img-fluid">
-											</div>
-											<p><?= $m_product->name ?></p>
-											<?php
-											if (user_login_check() == true) {
-											?>
-												<span><?= CURRENCY . ' ' . $m_product->price ?></span>
-											<?php
-											}
-											?>
-										</div>
-									</a>
-								</div>
-
-						<?php
+						<div class="row">
+							<?php
+							$this->load->model('ProductModel');
+							if (user_login_check() == true) {
+								$m_products = $this->ProductModel->getproductbydpot(logged_in_user_row()->dpot_id, null, 2);
+							} else {
+								$m_products = $this->ProductModel->getproductbydpot(null, null, 2);
 							}
-						}
-						?>
+							if (!empty($m_products)) {
+								foreach ($m_products as $m_product) {
+							?>
+									<div class="col-md-3 w-mob-50">
+										<a href="<?= base_url('product/' . $m_product->id) ?>">
+											<div class="product-all-list">
+												<div class="list-product-img">
+													<img src="<?= GET_UPLOADS . 'products/' . $m_product->f_img ?>" alt="img" class="img-fluid">
+												</div>
+												<p><?= $m_product->name ?></p>
+												<?php
+												if (user_login_check() == true) {
+												?>
+													<span><?= CURRENCY . ' ' . $m_product->price ?></span>
+												<?php
+												}
+												?>
+											</div>
+										</a>
+									</div>
+
+							<?php
+								}
+							}
+							?>
+						</div>
 					</div>
 					<div class="tab-pane fade" id="sanitizers" role="tabpanel" aria-labelledby="sanitizers-tab">
-						<?php
-						$this->load->model('ProductModel');
-						if (user_login_check() == true) {
-							$s_products = $this->ProductModel->getproductbydpot(logged_in_user_row()->dpot_id, null, 3);
-						} else {
-							$s_products = $this->ProductModel->getproductbydpot(null, null, 3);
-						}
-						if (!empty($s_products)) {
-							foreach ($s_products as $s_product) {
-						?>
-								<div class="col-md-3 w-mob-50">
-									<a href="<?= base_url('product/' . $s_product->id) ?>">
-										<div class="product-all-list">
-											<div class="list-product-img">
-												<img src="<?= GET_UPLOADS . 'products/' . $s_product->f_img ?>" alt="img" class="img-fluid">
-											</div>
-											<p><?= $s_product->name ?></p>
-											<?php
-											if (user_login_check() == true) {
-											?>
-												<span><?= CURRENCY . ' ' . $s_product->price ?></span>
-											<?php
-											}
-											?>
-										</div>
-									</a>
-								</div>
-
-						<?php
+						<div class="row">
+							<?php
+							$this->load->model('ProductModel');
+							if (user_login_check() == true) {
+								$s_products = $this->ProductModel->getproductbydpot(logged_in_user_row()->dpot_id, null, 3);
+							} else {
+								$s_products = $this->ProductModel->getproductbydpot(null, null, 3);
 							}
-						}
-						?>
+							if (!empty($s_products)) {
+								foreach ($s_products as $s_product) {
+							?>
+									<div class="col-md-3 w-mob-50">
+										<a href="<?= base_url('product/' . $s_product->id) ?>">
+											<div class="product-all-list">
+												<div class="list-product-img">
+													<img src="<?= GET_UPLOADS . 'products/' . $s_product->f_img ?>" alt="img" class="img-fluid">
+												</div>
+												<p><?= $s_product->name ?></p>
+												<?php
+												if (user_login_check() == true) {
+												?>
+													<span><?= CURRENCY . ' ' . $s_product->price ?></span>
+												<?php
+												}
+												?>
+											</div>
+										</a>
+									</div>
+
+							<?php
+								}
+							}
+							?>
+						</div>
 					</div>
 				</div>
 			</div>

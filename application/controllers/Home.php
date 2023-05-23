@@ -45,6 +45,8 @@ class Home extends CI_Controller
 		} else {
 			$data['products'] = $this->ProductModel->getproductbydpot(null, null, $product_type);
 		}
+		$data['product_rate'] = $this->ProductModel->getproductcalculateddetails($id);
+		// var_dump($data['product_rate']);die;
 		$data['product'] = $product_row;
 		$data['folder'] = 'frontend';
 		$data['template'] = 'product';

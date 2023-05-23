@@ -49,40 +49,40 @@ var incrementMinus = buttonMinus.click(function() {
 
 
 //=====Carousel owl===========//
-jQuery("#carousel").owlCarousel({
-    navigation : true,
-    autoplay: true,
-    lazyLoad: true,
-    loop: true,
-    margin: 30,
-    nav:true,
-    navText : [
-        '<img src="images/left-a.png" alt="img">',
-        '<img src="images/left-a.png" alt="img">'
-    ],
-    responsiveClass: true,
-    autoHeight: true,
-    autoplayTimeout: 3000,
-    dots: false,
-    smartSpeed: 2000,
-    responsive: {
-      0: {
-        items: 2
-      },
+// jQuery("#carousel").owlCarousel({
+//     navigation : true,
+//     autoplay: true,
+//     lazyLoad: true,
+//     loop: true,
+//     margin: 30,
+//     nav:true,
+//     navText : [
+//         '<img src="images/left-a.png" alt="img">',
+//         '<img src="images/left-a.png" alt="img">'
+//     ],
+//     responsiveClass: true,
+//     autoHeight: true,
+//     autoplayTimeout: 3000,
+//     dots: false,
+//     smartSpeed: 2000,
+//     responsive: {
+//       0: {
+//         items: 2
+//       },
   
-      600: {
-        items: 3
-      },
+//       600: {
+//         items: 3
+//       },
   
-      1024: {
-        items: 4
-      },
+//       1024: {
+//         items: 4
+//       },
   
-      1366: {
-        items: 4
-      }
-    }
-});
+//       1366: {
+//         items: 4
+//       }
+//     }
+// });
 
 
 

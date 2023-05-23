@@ -1,3 +1,9 @@
+<!--Owl Carousel cdn-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+<!--Slick Slider-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+<!--Slick Slider-->
 <!--Banner sub pages-->
 <div class="banner-subpages relative-class" style="background: url(<?= ASSET_URL . 'frontend/' ?>images/bnr-sub1.jpg);">
 	<div class="mob-social-links">
@@ -14,7 +20,7 @@
 					<h1>product description</h1>
 					<nav aria-label="breadcrumb" class="cstm-bread-crumb">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="<?=BASE_URL?>">Home</a></li>
+							<li class="breadcrumb-item"><a href="<?= BASE_URL ?>">Home</a></li>
 							<i class="fa-solid fa-angle-right"></i>
 							<li class="breadcrumb-item" aria-current="page">Product Description</li>
 						</ol>
@@ -35,80 +41,45 @@
 					<div class="vehicle-detail-banner banner-content clearfix">
 						<div class="banner-slider thum-desk-block">
 							<div class="slider slider-nav thumb-image">
-								<div class="thumbnail-image">
-									<div class="thumbImg">
-										<img src="images/thm1.jpg" alt="slider-img">
-									</div>
-								</div>
-								<div class="thumbnail-image">
-									<div class="thumbImg">
-										<img src="images/thm2.jpg" alt="slider-img">
-									</div>
-								</div>
-								<div class="thumbnail-image">
-									<div class="thumbImg">
-										<img src="images/thm1.jpg" alt="slider-img">
-									</div>
-								</div>
-								<div class="thumbnail-image">
-									<div class="thumbImg">
-										<img src="images/thm2.jpg" alt="slider-img">
-									</div>
-								</div>
-								<div class="thumbnail-image">
-									<div class="thumbImg">
-										<img src="images/thm1.jpg" alt="slider-img">
-									</div>
-								</div>
-								<div class="thumbnail-image">
-									<div class="thumbImg">
-										<img src="images/thm2.jpg" alt="slider-img">
-									</div>
-								</div>
-								<div class="thumbnail-image">
-									<div class="thumbImg">
-										<img src="images/thm1.jpg" alt="slider-img">
-									</div>
-								</div>
-								<div class="thumbnail-image">
-									<div class="thumbImg">
-										<img src="images/thm2.jpg" alt="slider-img">
-									</div>
-								</div>
-								<div class="thumbnail-image">
-									<div class="thumbImg">
-										<img src="images/thm1.jpg" alt="slider-img">
-									</div>
-								</div>
+
+								<?php
+								if ($product) {
+									$thumb_str = $product->s_imgs_thumb;
+									if ($thumb_str !== null && $thumb_str !== '') {
+										$thumbs = explode(',', $thumb_str);
+										foreach ($thumbs as $thumb) {
+								?>
+											<div class="thumbnail-image">
+												<div class="thumbImg">
+													<img src="<?= GET_UPLOADS ?>products/thumb/<?= $thumb ?>" alt="slider-img">
+												</div>
+											</div>
+
+								<?php
+										}
+									}
+								}
+								?>
+
 							</div>
 							<div class="slider slider-for">
-								<div class="slider-banner-image">
-									<img src="images/add-cart.png" alt="Car-Image">
-								</div>
-								<div class="slider-banner-image">
-									<img src="images/add-cart1.png" alt="Car-Image">
-								</div>
-								<div class="slider-banner-image">
-									<img src="images/add-cart.png" alt="Car-Image">
-								</div>
-								<div class="slider-banner-image">
-									<img src="images/add-cart1.png" alt="Car-Image">
-								</div>
-								<div class="slider-banner-image">
-									<img src="images/add-cart.png" alt="Car-Image">
-								</div>
-								<div class="slider-banner-image">
-									<img src="images/add-cart1.png" alt="Car-Image">
-								</div>
-								<div class="slider-banner-image">
-									<img src="images/add-cart.png" alt="Car-Image">
-								</div>
-								<div class="slider-banner-image">
-									<img src="images/add-cart1.png" alt="Car-Image">
-								</div>
-								<div class="slider-banner-image">
-									<img src="images/add-cart.png" alt="Car-Image">
-								</div>
+								<?php
+								if ($product) {
+									$org_str = $product->s_imgs;
+									if ($org_str !== null && $org_str !== '') {
+										$orgs = explode(',', $org_str);
+										foreach ($orgs as $org) {
+								?>
+											<div class="slider-banner-image">
+												<img src="<?= GET_UPLOADS ?>products/<?= $org ?>" alt="Car-Image">
+											</div>
+
+								<?php
+										}
+									}
+								}
+								?>
+
 							</div>
 						</div>
 					</div>
@@ -150,17 +121,21 @@
 
 			<div class="col-md-6">
 				<div class="product-all-dtls">
-					<p class="stoke">In Stoke</p>
-					<h2 class="prdct-name">Tar Single Malt Whisky</h2>
-					<h3 class="prdct-rps">Nu 780.00</h3>
-					<span class="prdct-size">Size</span>
+					<!-- <p class="stoke">In Stoke</p> -->
+					<h2 class="prdct-name"><?=$product->name?></h2>
+					<h3 class="prdct-rps"><?php
+					if(user_login_check()==true){
+						
+					}
+					?></h3>
+					<!-- <span class="prdct-size">Size</span>
 					<div class="bottle-size">
 						<p class="ml-qnty">180 ml</p>
 						<p class="ml-qnty">375 ml</p>
 						<p class="ml-qnty">500 ml</p>
 						<p class="ml-qnty">750 ml</p>
 						<p class="ml-qnty">1000 ml</p>
-					</div>
+					</div> -->
 					<span class="prdct-size">Quantity</span>
 					<div class="qun-t-cls prdct-nw-qnty">
 						<div class="qty-container">
@@ -182,15 +157,9 @@
 						</div>
 					</nav>
 					<div class="tab-content" id="nav-tabContent">
-						<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Accusantium maxime corporis facilis mollitia error vero, in odio non nihil explicabo qui eius voluptatem excepturi veniam, accusamus praesentium, at itaque
-							eum!Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Accusantium maxime corporis facilis mollitia error vero, in odio non nihil explicabo qui eius voluptatem excepturi veniam, accusamus praesentium, at itaque eum!
+						<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><?= $product->des ?>1
 						</div>
-						<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Accusantium maxime corporis facilis mollitia error vero, in odio non nihil explicabo qui eius voluptatem excepturi veniam, accusamus praesentium, at itaque
-							eum!Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Accusantium maxime corporis facilis mollitia error vero, in odio non nihil explicabo qui eius voluptatem excepturi veniam, accusamus praesentium, at itaque eum!
+						<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"><?= $product->about ?>2
 						</div>
 					</div>
 				</div>
@@ -199,7 +168,11 @@
 	</div>
 </div>
 <!--Single Malt-->
+<!--Owl Carousel cdn-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
+<!--Slick Slider-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <!--Similar Product-->
 <div class="similer-product-section section">
 	<div class="container">
@@ -214,87 +187,25 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div id="carousel" class="owl-carousel smilir-crsl-prdct">
-					<div class="item">
-						<div class="product-all-list">
-							<div class="list-product-img">
-								<img src="images/pa1.png" alt="img" class="img-fluid">
+					<?php
+					if (!empty($products)) {
+						foreach ($products as $fi_product) {
+					?>
+							<div class="item">
+								<div class="product-all-list">
+									<div class="list-product-img">
+										<img src="<?= GET_UPLOADS . 'products/' . $fi_product->f_img ?>" alt="img" class="img-fluid">
+									</div>
+									<p><?= $fi_product->name ?></p>
+									<!-- <span>Nu 780.00</span> -->
+								</div>
 							</div>
-							<p>Lorem Ipsum Product</p>
-							<span>Nu 780.00</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="product-all-list">
-							<div class="list-product-img">
-								<img src="images/pa2.png" alt="img" class="img-fluid">
-							</div>
-							<p>Lorem Ipsum Product</p>
-							<span>Nu 780.00</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="product-all-list">
-							<div class="list-product-img">
-								<img src="images/pa1.png" alt="img" class="img-fluid">
-							</div>
-							<p>Lorem Ipsum Product</p>
-							<span>Nu 780.00</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="product-all-list">
-							<div class="list-product-img">
-								<img src="images/pa2.png" alt="img" class="img-fluid">
-							</div>
-							<p>Lorem Ipsum Product</p>
-							<span>Nu 780.00</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="product-all-list">
-							<div class="list-product-img">
-								<img src="images/pa2.png" alt="img" class="img-fluid">
-							</div>
-							<p>Lorem Ipsum Product</p>
-							<span>Nu 780.00</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="product-all-list">
-							<div class="list-product-img">
-								<img src="images/pa1.png" alt="img" class="img-fluid">
-							</div>
-							<p>Lorem Ipsum Product</p>
-							<span>Nu 780.00</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="product-all-list">
-							<div class="list-product-img">
-								<img src="images/pa2.png" alt="img" class="img-fluid">
-							</div>
-							<p>Lorem Ipsum Product</p>
-							<span>Nu 780.00</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="product-all-list">
-							<div class="list-product-img">
-								<img src="images/pa1.png" alt="img" class="img-fluid">
-							</div>
-							<p>Lorem Ipsum Product</p>
-							<span>Nu 780.00</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="product-all-list">
-							<div class="list-product-img">
-								<img src="images/pa2.png" alt="img" class="img-fluid">
-							</div>
-							<p>Lorem Ipsum Product</p>
-							<span>Nu 780.00</span>
-						</div>
-					</div>
+
+					<?php
+						}
+					}
+					?>
+
 				</div>
 			</div>
 		</div>
@@ -320,3 +231,41 @@
 	</div>
 </div>
 <!--Head Line all-2-->
+
+<script>
+	//=====Carousel owl===========//
+jQuery("#carousel").owlCarousel({
+    navigation : true,
+    autoplay: true,
+    lazyLoad: true,
+    loop: true,
+    margin: 30,
+    nav:true,
+    navText : [
+        '<img src="images/left-a.png" alt="img">',
+        '<img src="images/left-a.png" alt="img">'
+    ],
+    responsiveClass: true,
+    autoHeight: true,
+    autoplayTimeout: 3000,
+    dots: false,
+    smartSpeed: 2000,
+    responsive: {
+      0: {
+        items: 2
+      },
+  
+      600: {
+        items: 3
+      },
+  
+      1024: {
+        items: 4
+      },
+  
+      1366: {
+        items: 4
+      }
+    }
+});
+</script>
