@@ -42,9 +42,34 @@
 								?>
 							</select>
 						</div>
+						<div>
+							<?php
+							if (!empty($product_data)) {
+								$s_imgs_strn = $product_data->s_imgs;
+								if ($s_imgs_strn !== null && $s_imgs_strn !== '') {
+									$s_imgs = explode(',', $s_imgs_strn);
+									foreach ($s_imgs as $s_img) {
+							?>
+										<img src='<?= GET_UPLOADS ?>products/<?= $s_img ?>' height='50px'>
+							<?php
+									}
+								}
+							}
+							?>
+						</div>
 						<div class="form-group">
 							<label for="exampleInputEmail1">Slider Images</label>
 							<input type="file" name="files[]" placeholder="" class="form-control" value="" multiple>
+							<?php
+							if (!empty($product_data)) {
+								$s_imgs_strn = $product_data->s_imgs;
+								if ($s_imgs_strn !== null && $s_imgs_strn !== '') {
+							?>
+									<small class='text-danger'>*Uploading new set of images will automatically overwrite the old slider images.</small></small>
+							<?php
+								}
+							}
+							?>
 						</div>
 						<div class="form-group">
 							<label for="exampleInputEmail1">Product Type</label>
