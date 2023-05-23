@@ -16,7 +16,11 @@ class Products extends CI_Controller
 		$data['template'] = 'product';
 		$data['title'] = 'Manage Product';
 		$data['admin_data'] = logged_in_admin_row();
-		$data['products'] = $this->ProductModel->getproducts();
+		if (admin_type() == SUPER || admin_type() == MANAGE) {
+			$data['products'] = $this->ProductModel->getproducts();
+		} elseif (admin_type() == DEPOT) {
+			$data['products'] = $this->ProductModel->getproductbydpot($data['admin_data']->dpot_id, null, null, null);
+		}
 		$this->load->view('layout', $data);
 	}
 	public function add_product($id = null)

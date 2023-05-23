@@ -32,13 +32,23 @@
 							<select name="dpot_id" id="" required class="form-control">
 								<option value="" selected>Select Depo</option>
 								<?php
+
 								if (!empty($depos)) {
 									foreach ($depos as $depo) {
+										if (admin_type() == SUPER) {
 								?>
-										<option <?= (!empty($product_data) && $product_data->dpot_id == $depo->id) ? 'selected' : '' ?> value="<?= $depo->id ?>"><?= $depo->name ?></option>
+											<option <?= (!empty($product_data) && $product_data->dpot_id == $depo->id) ? 'selected' : '' ?> value="<?= $depo->id ?>"><?= $depo->name ?></option>
+											<?php
+										} else {
+											if ($admin_data->dpot_id == $depo->id) {
+											?>
+												<option selected value="<?= $depo->id ?>"><?= $depo->name ?></option>
 								<?php
+											}
+										}
 									}
 								}
+
 								?>
 							</select>
 						</div>

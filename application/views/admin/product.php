@@ -19,7 +19,7 @@
 							<h4 class="card-title">Products</h4>
 						</div>
 						<?php
-						if (admin_type() == SUPER) {
+						if (admin_type() == SUPER || admin_type() == DEPOT) {
 						?>
 							<div>
 								<a href="<?= ADMIN_URL . 'Products/add_Product' ?>" class="btn btn-primary">Add New Product</a>
@@ -44,7 +44,7 @@
 									<th>Principal Dist Fee</th>
 									<th>TDS %</th>
 									<?php
-									if (admin_type() == SUPER) {
+									if (admin_type() == SUPER || admin_type() == DEPOT) {
 									?>
 										<th>Action</th>
 									<?php
@@ -97,7 +97,7 @@
 											<td><?= $pdf ?></td>
 											<td><?= $tds ?></td>
 											<?php
-											if (admin_type() == SUPER) {
+											if (admin_type() == SUPER || admin_type() == DEPOT) {
 											?>
 												<td>
 													<a href="<?= ADMIN_URL ?>product/edit/<?= $product->id ?>" class="btn btn-warning">Edit</a>

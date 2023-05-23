@@ -45,9 +45,10 @@ class ProductModel extends CI_Model
 			return $query->row();
 		}
 	}
-	public function getproductbydpot($dpot_id = null, $limit = null, $type = null)
+	public function getproductbydpot($dpot_id = null, $limit = null, $type = null, $rand = 1)
 	{
-		$this->db->select();
+		$dpot_table = 'dpots';
+		$this->db->select($this->table_name . '.*, ' . $dpot_table . '.name as depot_name');
 		$this->db->from($this->table_name);
 		if ($dpot_id !== null) {
 			$this->db->where('dpot_id', $dpot_id);
@@ -58,7 +59,10 @@ class ProductModel extends CI_Model
 		if ($type !== null) {
 			$this->db->where('type', $type);
 		}
-		$this->db->order_by('rand()');
+		$this->db->join($dpot_table, $dpot_table . '.id = ' . $this->table_name . '.dpot_id', 'left');
+		if ($rand !== null) {
+			$this->db->order_by('rand()');
+		}
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {
 			return false;
