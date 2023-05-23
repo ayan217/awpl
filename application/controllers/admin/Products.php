@@ -52,6 +52,7 @@ class Products extends CI_Controller
 				if (!empty($_FILES['files']['name'][0])) {
 					// Create a folder to store the images
 					$folderPath = UPLOAD_PATH . 'products/';
+					$thumbFolderPath = UPLOAD_PATH . 'products/thumb/';
 					if (!is_dir($folderPath)) {
 						mkdir($folderPath, 0777, true);
 					}
@@ -70,6 +71,7 @@ class Products extends CI_Controller
 
 							// Move the uploaded file to the destination folder
 							if (move_uploaded_file($files['tmp_name'][$i], $filePath)) {
+								$file_name_array_thumb[] = $this->createThumbnail($filePath, $thumbFolderPath, 100, 100);
 								$file_name_array[] = $fileName;
 							} else {
 								// Error in file upload
@@ -84,6 +86,8 @@ class Products extends CI_Controller
 				// multiple slider images upload code
 
 				$_POST['s_imgs'] = implode(',', $file_name_array);
+				$_POST['s_imgs_thumb'] = implode(',', $file_name_array_thumb);
+
 				$data = $_POST;
 				if ($this->ProductModel->add_product($data) !== false) {
 					$this->session->set_flashdata('log_suc', 'Product Added');
@@ -110,6 +114,75 @@ class Products extends CI_Controller
 			$this->load->view('layout', $data);
 		}
 	}
+	public function createThumbnail($sourcePath, $destinationPath, $thumbnailWidth, $thumbnailHeight)
+	{
+		// Get the source image type
+		$sourceExtension = pathinfo($sourcePath, PATHINFO_EXTENSION);
+		$sourceExtension = strtolower($sourceExtension);
+
+		// Load the source image based on its type
+		switch ($sourceExtension) {
+			case 'jpg':
+			case 'jpeg':
+				$sourceImage = imagecreatefromjpeg($sourcePath);
+				break;
+			case 'png':
+				$sourceImage = imagecreatefrompng($sourcePath);
+				break;
+			case 'webp':
+				$sourceImage = imagecreatefromwebp($sourcePath);
+				break;
+			default:
+				// Unsupported image type
+				return false;
+		}
+
+		// Get the source image dimensions
+		$sourceWidth = imagesx($sourceImage);
+		$sourceHeight = imagesy($sourceImage);
+
+		// Calculate the thumbnail dimensions while maintaining the aspect ratio
+		$thumbnailRatio = $thumbnailWidth / $thumbnailHeight;
+		$sourceRatio = $sourceWidth / $sourceHeight;
+
+		if ($thumbnailRatio > $sourceRatio) {
+			$thumbnailWidth = $thumbnailHeight * $sourceRatio;
+		} else {
+			$thumbnailHeight = $thumbnailWidth / $sourceRatio;
+		}
+
+		// Create a new thumbnail image with the desired dimensions
+		$thumbnailImage = imagecreatetruecolor($thumbnailWidth, $thumbnailHeight);
+
+		// Resize and copy the original image to the thumbnail image
+		imagecopyresampled($thumbnailImage, $sourceImage, 0, 0, 0, 0, $thumbnailWidth, $thumbnailHeight, $sourceWidth, $sourceHeight);
+
+		// Generate a unique file name for the thumbnail
+		$thumbnailName = 'thumb_' . uniqid() . '.' . $sourceExtension;
+		$thumbnailPath = $destinationPath . $thumbnailName;
+
+		// Save the thumbnail image based on its type
+		switch ($sourceExtension) {
+			case 'jpg':
+			case 'jpeg':
+				imagejpeg($thumbnailImage, $thumbnailPath);
+				break;
+			case 'png':
+				imagepng($thumbnailImage, $thumbnailPath);
+				break;
+			case 'webp':
+				imagewebp($thumbnailImage, $thumbnailPath);
+				break;
+		}
+
+		// Free up memory
+		imagedestroy($sourceImage);
+		imagedestroy($thumbnailImage);
+
+		// Return the name of the created thumbnail image
+		return $thumbnailName;
+	}
+
 	public function edit($id)
 	{
 		if ($this->input->post()) {
@@ -140,6 +213,7 @@ class Products extends CI_Controller
 				if (!empty($_FILES['files']['name'][0])) {
 					// Create a folder to store the images
 					$folderPath = UPLOAD_PATH . 'products/';
+					$thumbFolderPath = UPLOAD_PATH . 'products/thumb/';
 					if (!is_dir($folderPath)) {
 						mkdir($folderPath, 0777, true);
 					}
@@ -158,6 +232,7 @@ class Products extends CI_Controller
 
 							// Move the uploaded file to the destination folder
 							if (move_uploaded_file($files['tmp_name'][$i], $filePath)) {
+								$file_name_array_thumb[] = $this->createThumbnail($filePath, $thumbFolderPath, 100, 100);
 								$file_name_array[] = $fileName;
 							} else {
 								// Error in file upload
@@ -170,8 +245,10 @@ class Products extends CI_Controller
 					}
 				}
 				// multiple slider images upload code
+
 				if (!empty($file_name_array)) {
 					$_POST['s_imgs'] = implode(',', $file_name_array);
+					$_POST['s_imgs_thumb'] = implode(',', $file_name_array_thumb);
 				} else {
 					$_POST['s_imgs'] = $product_row->s_imgs;
 				}

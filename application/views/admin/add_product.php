@@ -55,12 +55,12 @@
 						<div>
 							<?php
 							if (!empty($product_data)) {
-								$s_imgs_strn = $product_data->s_imgs;
+								$s_imgs_strn = $product_data->s_imgs_thumb;
 								if ($s_imgs_strn !== null && $s_imgs_strn !== '') {
 									$s_imgs = explode(',', $s_imgs_strn);
 									foreach ($s_imgs as $s_img) {
 							?>
-										<img src='<?= GET_UPLOADS ?>products/<?= $s_img ?>' height='50px'>
+										<img src='<?= GET_UPLOADS ?>products/thumb/<?= $s_img ?>'>
 							<?php
 									}
 								}
