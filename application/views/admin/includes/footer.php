@@ -1,11 +1,11 @@
 </div>
 </div>
 <script>
-$(document).ready(function () {
-    $('#datatable').DataTable({
-        "order": []
-    });
-});
+	$(document).ready(function() {
+		$('#datatable').DataTable({
+			"order": []
+		});
+	});
 </script>
 <!-- plugins:js -->
 <script src="<?= ASSET_URL ?>templete/vendors/js/vendor.bundle.base.js"></script>
@@ -32,6 +32,9 @@ $(document).ready(function () {
 <script src="<?= ASSET_URL . 'js/jquery.dataTables.min.js' ?>"></script>
 <script src="<?= ASSET_URL . 'js/dataTables.bootstrap4.min.js' ?>"></script>
 <script src="<?= ASSET_URL . 'js/jquery-ui.js' ?>"></script>
+<!-- texteditor -->
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 </body>
 
 </html>

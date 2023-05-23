@@ -11,26 +11,40 @@ class Home extends CI_Controller
 		$this->load->model('ProductModel');
 		$data['folder'] = 'frontend';
 		$data['template'] = 'index';
-		$dpot_id = logged_in_user_row()->dpot_id;
-		$data['products'] = $this->ProductModel->getproductbydpot($dpot_id, 4);
+		if (user_login_check() == true) {
+			$dpot_id = logged_in_user_row()->dpot_id;
+			$data['products'] = $this->ProductModel->getproductbydpot($dpot_id, 4);
+		} else {
+			$data['products'] = $this->ProductModel->getproductbydpot(null, 4, null);
+		}
 		$data['title'] = 'AWPL';
 		$this->load->view('layout', $data);
 	}
-	public function shop_now(){
+	public function shop_now()
+	{
 		$this->load->model('ProductModel');
-		$dpot_id = logged_in_user_row()->dpot_id;
-		$data['products'] = $this->ProductModel->getproductbydpot($dpot_id);
+		if (user_login_check() == true) {
+			$dpot_id = logged_in_user_row()->dpot_id;
+			$data['products'] = $this->ProductModel->getproductbydpot($dpot_id);
+		} else {
+			$data['products'] = $this->ProductModel->getproductbydpot(null, null, null);
+		}
 		$data['folder'] = 'frontend';
 		$data['template'] = 'shop';
 		$data['title'] = 'AWPL Shop';
 		$this->load->view('layout', $data);
 	}
-	public function product($id){
+	public function product($id)
+	{
 		$this->load->model('ProductModel');
 		$product_row = $this->ProductModel->getproduct($id);
 		$product_type = $product_row->type;
-		$dpot_id = logged_in_user_row()->dpot_id;
-		$data['products'] = $this->ProductModel->getproductbydpot($dpot_id,null,$product_type);
+		if (user_login_check() == true) {
+			$dpot_id = logged_in_user_row()->dpot_id;
+			$data['products'] = $this->ProductModel->getproductbydpot($dpot_id, null, $product_type);
+		} else {
+			$data['products'] = $this->ProductModel->getproductbydpot(null, null, $product_type);
+		}
 		$data['product'] = $product_row;
 		$data['folder'] = 'frontend';
 		$data['template'] = 'product';
