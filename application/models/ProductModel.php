@@ -56,7 +56,15 @@ class ProductModel extends CI_Model
 			$excise_duty_amount = ($net_amount * $excise_duty_rate) / 100;
 			$dist_fee_amount = $product_row->dist_fee;
 			$pri_fee_amount = $product_row->pri_dist_fee;
-			$total_product_price = $net_amount + $excise_duty_amount + $dist_fee_amount + $pri_fee_amount;
+			if ($user_id !== null) {
+				$user_row = $this->UserModel->getuser($user_id);
+				$user_type = $user_row->type;
+				if ($user_type == 5) {
+					$total_product_price = $net_amount + $dist_fee_amount + $pri_fee_amount;
+				} else if ($user_type == 4) {
+					$total_product_price = $net_amount + $excise_duty_amount + $dist_fee_amount + $pri_fee_amount;
+				}
+			}
 			$data = compact('actual_price', 'net_amount', 'excise_duty_amount', 'total_product_price');
 		} else {
 			$tds_rate = $product_row->tds;
@@ -83,6 +91,23 @@ class ProductModel extends CI_Model
 		$this->db->join($dpot_table, $dpot_table . '.id = ' . $this->table_name . '.dpot_id', 'left');
 		if ($rand !== null) {
 			$this->db->order_by('rand()');
+		}
+		$query = $this->db->get();
+		if ($query->num_rows() == 0) {
+			return false;
+		} else {
+			return $query->result();
+		}
+	}
+	public function get_products_for_gen($limit = null)
+	{
+		$dpot_table = 'dpots';
+		$this->db->select($this->table_name . '.*, ' . $dpot_table . '.name as depot_name');
+		$this->db->from($this->table_name);
+		$this->db->where($this->table_name . '.type != 1');
+		$this->db->join($dpot_table, $dpot_table . '.id = ' . $this->table_name . '.dpot_id', 'left');
+		if ($limit !== null) {
+			$this->db->limit($limit);
 		}
 		$query = $this->db->get();
 		if ($query->num_rows() == 0) {

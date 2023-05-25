@@ -75,10 +75,16 @@
 </div>
 <!--Mobile Bottom Stiky-->
 
+<script src="<?= ASSET_URL ?>frontend/jquery/js/jquery-3.5.1.min.js"></script>
 <!-- Bootstrap v4 js -->
 <script src="<?= ASSET_URL ?>frontend/bootstrap/js/bootstrap.min.js"></script>
 <!--Aos-->
 <script src="<?= ASSET_URL ?>frontend/js/aos.js"></script>
+<!--Owl Carousel cdn-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<!--Slick Slider-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <script src="<?= ASSET_URL ?>frontend/js/custom.js"></script>
 <script>
 	//Aos Block page
@@ -90,6 +96,43 @@
 			return window.innerWidth < maxWidth;
 		}
 	});
+
+
+	//=====Carousel owl===========//
+jQuery("#carousel").owlCarousel({
+    navigation : true,
+    autoplay: true,
+    lazyLoad: true,
+    loop: true,
+    margin: 30,
+    nav:true,
+    navText : [
+        '<img src="<?=ASSET_URL?>frontend/images/left-a.png" alt="img">',
+        '<img src="<?=ASSET_URL?>frontend/images/left-a.png" alt="img">'
+    ],
+    responsiveClass: true,
+    autoHeight: true,
+    autoplayTimeout: 3000,
+    dots: false,
+    smartSpeed: 2000,
+    responsive: {
+      0: {
+        items: 2
+      },
+  
+      600: {
+        items: 3
+      },
+  
+      1024: {
+        items: 4
+      },
+  
+      1366: {
+        items: 4
+      }
+    }
+});
 </script>
 </body>
 

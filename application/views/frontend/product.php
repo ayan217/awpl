@@ -1,9 +1,3 @@
-<!--Owl Carousel cdn-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
-<!--Slick Slider-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
-<!--Slick Slider-->
 <!--Banner sub pages-->
 <div class="banner-subpages relative-class" style="background: url(<?= ASSET_URL . 'frontend/' ?>images/bnr-sub1.jpg);">
 	<div class="mob-social-links">
@@ -47,11 +41,13 @@
 									$thumb_str = $product->s_imgs_thumb;
 									if ($thumb_str !== null && $thumb_str !== '') {
 										$thumbs = explode(',', $thumb_str);
-										foreach ($thumbs as $thumb) {
+										array_unshift($thumbs, $product->f_img);
+										// var_dump($thumbs);
+										foreach ($thumbs as $k => $thumb) {
 								?>
 											<div class="thumbnail-image">
 												<div class="thumbImg">
-													<img src="<?= GET_UPLOADS ?>products/thumb/<?= $thumb ?>" alt="slider-img">
+													<img src="<?= GET_UPLOADS ?>products/<?= $k !== 0 ? 'thumb/' : '' ?><?= $thumb ?>" alt="slider-img">
 												</div>
 											</div>
 
@@ -68,7 +64,8 @@
 									$org_str = $product->s_imgs;
 									if ($org_str !== null && $org_str !== '') {
 										$orgs = explode(',', $org_str);
-										foreach ($orgs as $org) {
+										array_unshift($orgs, $product->f_img);
+										foreach ($orgs as $k => $org) {
 								?>
 											<div class="slider-banner-image">
 												<img src="<?= GET_UPLOADS ?>products/<?= $org ?>" alt="Car-Image">
@@ -85,35 +82,51 @@
 					</div>
 				</div>
 
+
 				<div class="product-mob-version tab-mob-show">
+
 					<div class="tab-content" id="nav-tabContent">
-						<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-							<img src="images/add-cart.png" alt="img">
-						</div>
-						<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-							<img src="images/add-cart1.png" alt="img">
-						</div>
-						<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-							<img src="images/add-cart.png" alt="img">
-						</div>
-						<div class="tab-pane fade" id="nav-contact-lst" role="tabpanel" aria-labelledby="nav-contact-tab-lst">
-							<img src="images/add-cart1.png" alt="img">
-						</div>
+						<?php
+						if ($product) {
+							$thumb_str = $product->s_imgs;
+							if ($thumb_str !== null && $thumb_str !== '') {
+								$thumbs = explode(',', $thumb_str);
+								$id = 0;
+								foreach ($thumbs as $thumb) {
+						?>
+									<div class="tab-pane fade <?= $id == 0 ? 'show active' : '' ?>" id="nav-home<?= $id ?>" role="tabpanel" aria-labelledby="nav-home-tab<?= $id ?>">
+										<img src="<?= GET_UPLOADS ?>products/<?= $thumb ?>" alt="img">
+									</div>
+
+						<?php
+									$id++;
+								}
+							}
+						}
+						?>
+
+
 					</div>
 					<nav>
 						<div class="nav nav-tabs" id="nav-tab" role="tablist">
-							<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
-								<img src="images/thm2.jpg" alt="img">
-							</a>
-							<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
-								<img src="images/thm1.jpg" alt="img">
-							</a>
-							<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">
-								<img src="images/thm1.jpg" alt="img">
-							</a>
-							<a class="nav-item nav-link" id="nav-contact-tab-lst" data-toggle="tab" href="#nav-contact-lst" role="tab" aria-controls="nav-contact-lst" aria-selected="false">
-								<img src="images/thm2.jpg" alt="img">
-							</a>
+							<?php
+							if ($product) {
+								$org_str = $product->s_imgs_thumb;
+								if ($org_str !== null && $org_str !== '') {
+									$orgs = explode(',', $org_str);
+									$id = 0;
+									foreach ($orgs as $org) {
+							?>
+										<a class="nav-item nav-link <?= $id == 0 ? 'active' : '' ?>" id="nav-home-tab<?= $id ?>" data-toggle="tab" href="#nav-home<?= $id ?>" role="tab" aria-controls="nav-home<?= $id ?>" aria-selected="true">
+											<img src="<?= GET_UPLOADS ?>products/thumb/<?= $org ?>" alt="img">
+										</a>
+							<?php
+										$id++;
+									}
+								}
+							}
+							?>
+
 						</div>
 					</nav>
 				</div>
@@ -122,20 +135,12 @@
 			<div class="col-md-6">
 				<div class="product-all-dtls">
 					<!-- <p class="stoke">In Stoke</p> -->
-					<h2 class="prdct-name"><?=$product->name?></h2>
-					<h3 class="prdct-rps"><?php
-					if(user_login_check()==true){
-						
-					}
-					?></h3>
-					<!-- <span class="prdct-size">Size</span>
+					<h2 class="prdct-name"><?= $product->name ?></h2>
+					<h3 class="prdct-rps"><?= user_login_check() == true ? CURRENCY . ' ' . $product_rate['total_product_price'] : '' ?></h3>
+					<span class="prdct-size">Size</span>
 					<div class="bottle-size">
-						<p class="ml-qnty">180 ml</p>
-						<p class="ml-qnty">375 ml</p>
-						<p class="ml-qnty">500 ml</p>
-						<p class="ml-qnty">750 ml</p>
-						<p class="ml-qnty">1000 ml</p>
-					</div> -->
+						<p class="ml-qnty"><?= $product->size ?></p>
+					</div>
 					<span class="prdct-size">Quantity</span>
 					<div class="qun-t-cls prdct-nw-qnty">
 						<div class="qty-container">
@@ -150,6 +155,23 @@
 
 			<div class="col-md-12">
 				<div class="product-text-all">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="home-tab-Description" data-toggle="tab" href="#home-Description" role="tab" aria-controls="home-Description" aria-selected="true">Description</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="profile-tab-About" data-toggle="tab" href="#profile-About" role="tab" aria-controls="profile-About" aria-selected="false">About</a>
+						</li>
+					</ul>
+					<div class="tab-content" id="myTabContent">
+						<div class="tab-pane fade show active" id="home-Description" role="tabpanel" aria-labelledby="home-tab-Description"><?= $product->des ?></div>
+						<div class="tab-pane fade" id="profile-About" role="tabpanel" aria-labelledby="profile-tab-About"><?= $product->about ?></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="col-md-12">
+				<div class="product-text-all">
 					<nav>
 						<div class="nav nav-tabs" id="nav-tab" role="tablist">
 							<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Description</a>
@@ -157,22 +179,18 @@
 						</div>
 					</nav>
 					<div class="tab-content" id="nav-tabContent">
-						<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><?= $product->des ?>1
+						<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 						</div>
-						<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"><?= $product->about ?>2
+						<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
 <!--Single Malt-->
-<!--Owl Carousel cdn-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-<!--Slick Slider-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <!--Similar Product-->
 <div class="similer-product-section section">
 	<div class="container">
@@ -192,13 +210,15 @@
 						foreach ($products as $fi_product) {
 					?>
 							<div class="item">
-								<div class="product-all-list">
-									<div class="list-product-img">
-										<img src="<?= GET_UPLOADS . 'products/' . $fi_product->f_img ?>" alt="img" class="img-fluid">
+								<a href="<?= base_url('product/' . $fi_product->id) ?>">
+									<div class="product-all-list">
+										<div class="list-product-img">
+											<img src="<?= GET_UPLOADS . 'products/' . $fi_product->f_img ?>" alt="img" class="img-fluid">
+										</div>
+										<p><?= $fi_product->name ?></p>
+										<!-- <span>Nu 780.00</span> -->
 									</div>
-									<p><?= $fi_product->name ?></p>
-									<!-- <span>Nu 780.00</span> -->
-								</div>
+								</a>
 							</div>
 
 					<?php
@@ -231,91 +251,3 @@
 	</div>
 </div>
 <!--Head Line all-2-->
-
-<script>
-	//=====Carousel owl===========//
-jQuery("#carousel").owlCarousel({
-    navigation : true,
-    autoplay: true,
-    lazyLoad: true,
-    loop: true,
-    margin: 30,
-    nav:true,
-    navText : [
-        '<img src="images/left-a.png" alt="img">',
-        '<img src="images/left-a.png" alt="img">'
-    ],
-    responsiveClass: true,
-    autoHeight: true,
-    autoplayTimeout: 3000,
-    dots: false,
-    smartSpeed: 2000,
-    responsive: {
-      0: {
-        items: 2
-      },
-  
-      600: {
-        items: 3
-      },
-  
-      1024: {
-        items: 4
-      },
-  
-      1366: {
-        items: 4
-      }
-    }
-});
-
-
-//slick
-$('.slider-for').slick({
-  slidesToShow: 1,
-  // slidesToScroll: false,
-  swipe: false,
-  arrows: true,
-  fade: true,
-  asNavFor: '.slider-nav'
-});
-$('.slider-nav').slick({
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  vertical:true,
-  asNavFor: '.slider-for',
-  dots: false,
-  focusOnSelect: true,
-  verticalSwiping:false,
-  nav: true,
-  responsive: [
-  {
-      breakpoint: 992,
-      settings: {
-        vertical: false,
-      }
-  },
-  {
-    breakpoint: 768,
-    settings: {
-      vertical: false,
-    }
-  },
-  {
-    breakpoint: 580,
-    settings: {
-      vertical: false,
-      slidesToShow: 3,
-    }
-  },
-  {
-    breakpoint: 380,
-    settings: {
-      vertical: false,
-      slidesToShow: 2,
-    }
-  }
-  ]
-});
-
-</script>

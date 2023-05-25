@@ -12,8 +12,13 @@ class Home extends CI_Controller
 		$data['folder'] = 'frontend';
 		$data['template'] = 'index';
 		if (user_login_check() == true) {
+			$user_type = logged_in_user_row()->type;
 			$dpot_id = logged_in_user_row()->dpot_id;
-			$data['products'] = $this->ProductModel->getproductbydpot($dpot_id, 4);
+			if ($user_type == '3') {
+				$data['products'] = $this->ProductModel->get_products_for_gen(4);
+			} else {
+				$data['products'] = $this->ProductModel->getproductbydpot($dpot_id, 4);
+			}
 		} else {
 			$data['products'] = $this->ProductModel->getproductbydpot(null, 4, null);
 		}
@@ -24,8 +29,13 @@ class Home extends CI_Controller
 	{
 		$this->load->model('ProductModel');
 		if (user_login_check() == true) {
+			$user_type = logged_in_user_row()->type;
 			$dpot_id = logged_in_user_row()->dpot_id;
-			$data['products'] = $this->ProductModel->getproductbydpot($dpot_id);
+			if ($user_type == '3') {
+				$data['products'] = $this->ProductModel->get_products_for_gen();
+			} else {
+				$data['products'] = $this->ProductModel->getproductbydpot($dpot_id);
+			}
 		} else {
 			$data['products'] = $this->ProductModel->getproductbydpot(null, null, null);
 		}
@@ -41,11 +51,12 @@ class Home extends CI_Controller
 		$product_type = $product_row->type;
 		if (user_login_check() == true) {
 			$dpot_id = logged_in_user_row()->dpot_id;
+			$user_id = logged_in_user_row()->id;
 			$data['products'] = $this->ProductModel->getproductbydpot($dpot_id, null, $product_type);
+			$data['product_rate'] = $this->ProductModel->getproductcalculateddetails($id, $user_id);
 		} else {
 			$data['products'] = $this->ProductModel->getproductbydpot(null, null, $product_type);
 		}
-		$data['product_rate'] = $this->ProductModel->getproductcalculateddetails($id);
 		// var_dump($data['product_rate']);die;
 		$data['product'] = $product_row;
 		$data['folder'] = 'frontend';

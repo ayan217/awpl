@@ -32,11 +32,39 @@
 		<div class="row">
 			<div class="col-md-12">
 				<ul class="nav nav-tabs shop-btn-top" id="myTab" role="tablist">
+					<?php
+					if (user_login_check() == true) {
+						if (logged_in_user_row()->type !== '3') {
+					?>
+							<li class="nav-item">
+								<a class="nav-link active" id="liquore-tab" data-toggle="tab" href="#liquore" role="tab" aria-controls="liquore" aria-selected="true">Liquors</a>
+							</li>
+						<?php
+						}
+					} else {
+						?>
+						<li class="nav-item">
+							<a class="nav-link active" id="liquore-tab" data-toggle="tab" href="#liquore" role="tab" aria-controls="liquore" aria-selected="true">Liquors</a>
+						</li>
+					<?php
+					}
+					?>
 					<li class="nav-item">
-						<a class="nav-link active" id="liquore-tab" data-toggle="tab" href="#liquore" role="tab" aria-controls="liquore" aria-selected="true">Liquors</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" id="water-tab" data-toggle="tab" href="#water" role="tab" aria-controls="water" aria-selected="false">Water</a>
+						<a class="nav-link <?php
+											if (user_login_check() == true) {
+												if (logged_in_user_row()->type == '3') {
+													echo 'active';
+												}
+											} ?>" id="water-tab" data-toggle="tab" href="#water" role="tab" aria-controls="water" aria-selected="<?php
+																																					if (user_login_check() == true) {
+																																						if (logged_in_user_row()->type !== '3') {
+																																							echo 'true';
+																																						} else {
+																																							echo 'false';
+																																						}
+																																					} else {
+																																						echo 'false';
+																																					} ?>">Water</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" id="mask-tab" data-toggle="tab" href="#mask" role="tab" aria-controls="mask" aria-selected="false">Masks</a>
@@ -46,43 +74,95 @@
 					</li>
 				</ul>
 				<div class="tab-content" id="myTabContent">
-					<div class="tab-pane fade show active" id="liquore" role="tabpanel" aria-labelledby="liquore-tab">
-						<div class="row">
-							<?php
-							$this->load->model('ProductModel');
-							if (user_login_check() == true) {
-								$l_products = $this->ProductModel->getproductbydpot(logged_in_user_row()->dpot_id, null, 1);
-							} else {
-								$l_products = $this->ProductModel->getproductbydpot(null, null, 1);
-							}
-							if (!empty($l_products)) {
-								foreach ($l_products as $l_product) {
-							?>
-									<div class="col-md-3 w-mob-50">
-										<a href="<?= base_url('product/' . $l_product->id) ?>">
-											<div class="product-all-list">
-												<div class="list-product-img">
-													<img src="<?= GET_UPLOADS . 'products/' . $l_product->f_img ?>" alt="img" class="img-fluid">
-												</div>
-												<p><?= $l_product->name ?></p>
-												<?php
-												if (user_login_check() == true) {
-												?>
-													<span><?= CURRENCY . ' ' . $l_product->price ?></span>
-												<?php
-												}
-												?>
+					<?php
+					if (user_login_check() == true) {
+						if (logged_in_user_row()->type !== '3') {
+					?>
+							<div class="tab-pane fade show active" id="liquore" role="tabpanel" aria-labelledby="liquore-tab">
+								<div class="row">
+									<?php
+									$this->load->model('ProductModel');
+									if (user_login_check() == true) {
+										$l_products = $this->ProductModel->getproductbydpot(logged_in_user_row()->dpot_id, null, 1);
+									} else {
+										$l_products = $this->ProductModel->getproductbydpot(null, null, 1);
+									}
+									if (!empty($l_products)) {
+										foreach ($l_products as $l_product) {
+									?>
+											<div class="col-md-3 w-mob-50">
+												<a href="<?= base_url('product/' . $l_product->id) ?>">
+													<div class="product-all-list">
+														<div class="list-product-img">
+															<img src="<?= GET_UPLOADS . 'products/' . $l_product->f_img ?>" alt="img" class="img-fluid">
+														</div>
+														<p><?= $l_product->name ?></p>
+														<?php
+														if (user_login_check() == true) {
+														?>
+															<span><?= CURRENCY . ' ' . $l_product->price ?></span>
+														<?php
+														}
+														?>
+													</div>
+												</a>
 											</div>
-										</a>
-									</div>
 
-							<?php
+									<?php
+										}
+									}
+									?>
+								</div>
+							</div>
+						<?php
+						}
+					} else {
+						?>
+						<div class="tab-pane fade show active" id="liquore" role="tabpanel" aria-labelledby="liquore-tab">
+							<div class="row">
+								<?php
+								$this->load->model('ProductModel');
+								if (user_login_check() == true) {
+									$l_products = $this->ProductModel->getproductbydpot(logged_in_user_row()->dpot_id, null, 1);
+								} else {
+									$l_products = $this->ProductModel->getproductbydpot(null, null, 1);
 								}
-							}
-							?>
+								if (!empty($l_products)) {
+									foreach ($l_products as $l_product) {
+								?>
+										<div class="col-md-3 w-mob-50">
+											<a href="<?= base_url('product/' . $l_product->id) ?>">
+												<div class="product-all-list">
+													<div class="list-product-img">
+														<img src="<?= GET_UPLOADS . 'products/' . $l_product->f_img ?>" alt="img" class="img-fluid">
+													</div>
+													<p><?= $l_product->name ?></p>
+													<?php
+													if (user_login_check() == true) {
+													?>
+														<span><?= CURRENCY . ' ' . $l_product->price ?></span>
+													<?php
+													}
+													?>
+												</div>
+											</a>
+										</div>
+
+								<?php
+									}
+								}
+								?>
+							</div>
 						</div>
-					</div>
-					<div class="tab-pane fade" id="water" role="tabpanel" aria-labelledby="water-tab">
+					<?php
+					}
+					?>
+					<div class="tab-pane fade <?php
+												if (user_login_check() == true) {
+													if (logged_in_user_row()->type == '3') {
+														echo 'show active';
+													}
+												} ?>" id="water" role="tabpanel" aria-labelledby="water-tab">
 						<div class="row">
 							<?php
 							$this->load->model('ProductModel');
