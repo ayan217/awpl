@@ -51,8 +51,16 @@
 												</div>
 											</div>
 
-								<?php
+										<?php
 										}
+									} else {
+										?>
+										<div class="thumbnail-image">
+											<div class="thumbImg">
+												<img src="<?= GET_UPLOADS ?>products/<?= $product->f_img ?>" alt="slider-img">
+											</div>
+										</div>
+								<?php
 									}
 								}
 								?>
@@ -71,8 +79,14 @@
 												<img src="<?= GET_UPLOADS ?>products/<?= $org ?>" alt="Car-Image">
 											</div>
 
-								<?php
+										<?php
 										}
+									} else {
+										?>
+										<div class="slider-banner-image">
+											<img src="<?= GET_UPLOADS ?>products/<?= $product->f_img ?>" alt="Car-Image">
+										</div>
+								<?php
 									}
 								}
 								?>

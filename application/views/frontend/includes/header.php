@@ -21,6 +21,7 @@
 	<link rel="stylesheet" href="<?= ASSET_URL ?>frontend/css/custom.css">
 	<!--Aos-->
 	<link href="<?= ASSET_URL ?>frontend/css/aos.css" rel="stylesheet">
+	<script src="<?= ASSET_URL ?>frontend/jquery/js/jquery-3.5.1.min.js"></script>
 </head>
 
 <body>

@@ -82,11 +82,11 @@ class Products extends CI_Controller
 							}
 						}
 					}
+					$_POST['s_imgs_thumb'] = implode(',', $file_name_array_thumb);
 				}
 				// multiple slider images upload code
 
 				$_POST['s_imgs'] = implode(',', $file_name_array);
-				$_POST['s_imgs_thumb'] = implode(',', $file_name_array_thumb);
 
 				$data = $_POST;
 				if ($this->ProductModel->add_product($data) !== false) {

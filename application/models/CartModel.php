@@ -32,7 +32,7 @@ class CartModel extends CI_Model
 	{
 		$dpot_table = 'dpots';
 		$product_table = 'product';
-		$this->db->select($this->table_name . '.*, ' . $dpot_table . '.name as depot_name, ' . $product_table . '.name as product_name, ' . $product_table . '.f_img as product_img, ' . $product_table . '.size as product_size');
+		$this->db->select($this->table_name . '.*, ' . $dpot_table . '.name as depot_name, ' . $product_table . '.name as product_name, ' . $product_table . '.f_img as product_img, ' . $product_table . '.size as product_size, ' . $product_table . '.type as product_type');
 		$this->db->from($this->table_name);
 		$this->db->where($this->table_name . '.user_id', $user_id);
 		$this->db->where($this->table_name . '.status', 0);
@@ -44,6 +44,26 @@ class CartModel extends CI_Model
 			return false;
 		} else {
 			return $query->result();
+		}
+	}
+
+	public function getDpotIdsByProductTypes($productTypes)
+	{
+		$dpot_table = 'dpots';
+		$product_table = 'product';
+		$this->db->select('pt.dpot_id, d.name');
+		$this->db->from($product_table . ' pt');
+		$this->db->join($dpot_table . ' d', 'd.id = pt.dpot_id');
+		$this->db->where_in('pt.type', $productTypes);
+		$this->db->group_by('pt.dpot_id');
+		$this->db->having('COUNT(DISTINCT pt.type) = ' . count($productTypes));
+
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return array();
 		}
 	}
 	public function delete($id)

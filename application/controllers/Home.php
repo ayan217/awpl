@@ -125,6 +125,18 @@ class Home extends CI_Controller
 			redirect($_SERVER['HTTP_REFERER'], 'refresh');
 		}
 	}
+	public function update_cart($id)
+	{
+		$data = [
+			'qnty' => $_POST['qnty']
+		];
+		if ($this->CartModel->update($data, $id) == true) {
+			$res = array('status' => 1);
+		} else {
+			$res = array('status' => 0);
+		}
+		echo json_encode($res);
+	}
 	public function login()
 	{
 		if ($this->input->post()) {

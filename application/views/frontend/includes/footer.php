@@ -74,8 +74,6 @@
 	</ul>
 </div>
 <!--Mobile Bottom Stiky-->
-
-<script src="<?= ASSET_URL ?>frontend/jquery/js/jquery-3.5.1.min.js"></script>
 <!-- Bootstrap v4 js -->
 <script src="<?= ASSET_URL ?>frontend/bootstrap/js/bootstrap.min.js"></script>
 <!--Aos-->
