@@ -193,6 +193,9 @@
 						if (logged_in_user_row()->type !== '3') {
 						?>
 							<p><?= $cart->depot_name ?></p>
+
+							<input type="hidden" class="form-control" name="dpot_id" id="" aria-describedby="helpId" placeholder="" value='<?= $cart->dpot_id ?>' required>
+
 							<?php
 						} else {
 							if (!empty($dpots)) {
@@ -201,10 +204,11 @@
 									<label for=""></label>
 									<select class="form-control" name="dpot_id" id="" required>
 										<?php
+
 										foreach ($dpots as $dpo_id) {
-											var_dump($dpo_id);
+
 										?>
-											<option value='<?= $dpo_id['dpot_id'] ?>'><?= $dpo_id['name'] ?></option>
+											<option value='<?= $dpo_id->dpot_id ?>'><?= $dpo_id->name ?></option>
 										<?php
 										}
 										?>
