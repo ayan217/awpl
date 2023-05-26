@@ -5,10 +5,11 @@ class Home extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('CartModel');
+		$this->load->model('ProductModel');
 	}
 	public function index()
 	{
-		$this->load->model('ProductModel');
 		$data['folder'] = 'frontend';
 		$data['template'] = 'index';
 		if (user_login_check() == true) {
@@ -27,7 +28,6 @@ class Home extends CI_Controller
 	}
 	public function shop_now()
 	{
-		$this->load->model('ProductModel');
 		if (user_login_check() == true) {
 			$user_type = logged_in_user_row()->type;
 			$dpot_id = logged_in_user_row()->dpot_id;
@@ -46,7 +46,6 @@ class Home extends CI_Controller
 	}
 	public function product($id)
 	{
-		$this->load->model('ProductModel');
 		$product_row = $this->ProductModel->getproduct($id);
 		$product_type = $product_row->type;
 		if (user_login_check() == true) {
@@ -63,6 +62,68 @@ class Home extends CI_Controller
 		$data['template'] = 'product';
 		$data['title'] = 'AWPL Shop';
 		$this->load->view('layout', $data);
+	}
+
+	public function cart()
+	{
+		if ($this->input->post()) {
+			if (user_login_check() == true) {
+				$user_id = logged_in_user_row()->id;
+				$_POST['user_id'] = $user_id;
+				$_POST['created_at'] = date('Y-m-d H:i:s');
+				$product_row = $this->ProductModel->getproduct($_POST['product_id']);
+				if ($product_row->in_stock == 0) {
+					$_POST['status'] = 0;
+					$chk_prev = $this->db->query('SELECT * FROM `cart` WHERE user_id = ' . $user_id . ' AND status = 0 AND product_id = ' . $_POST['product_id'])->row();
+					if (empty($chk_prev)) {
+						if ($this->CartModel->add($_POST)) {
+							$this->session->set_flashdata('log_suc', 'Added');
+							redirect($_SERVER['HTTP_REFERER'], 'refresh');
+						}
+					} else {
+						$c_id = $chk_prev->id;
+						$c_qnty = $chk_prev->qnty;
+						$_POST['qnty'] = $c_qnty + $_POST['qnty'];
+						if ($this->CartModel->update($_POST, $c_id)) {
+							$this->session->set_flashdata('log_suc', 'Added');
+							redirect($_SERVER['HTTP_REFERER'], 'refresh');
+						}
+					}
+				} else {
+					$_POST['status'] = 1;
+					$chk_prev = $this->db->query('SELECT * FROM `cart` WHERE user_id = ' . $user_id . ' AND status = 1 AND product_id = ' . $_POST['product_id'])->row();
+					if (empty($chk_prev)) {
+						if ($this->CartModel->add($_POST)) {
+							$this->session->set_flashdata('log_err', 'Out of stock..!! Try again after some time.');
+							redirect($_SERVER['HTTP_REFERER'], 'refresh');
+						}
+					} else {
+						$c_id = $chk_prev->id;
+						$c_qnty = $chk_prev->qnty;
+						$_POST['qnty'] = $c_qnty + $_POST['qnty'];
+						if ($this->CartModel->update($_POST, $c_id)) {
+							$this->session->set_flashdata('log_err', 'Out of stock..!! Try again after some time.');
+							redirect($_SERVER['HTTP_REFERER'], 'refresh');
+						}
+					}
+				}
+			} else {
+				redirect('login');
+			}
+		} else {
+			$data['cart_data'] = $this->CartModel->getcart(logged_in_user_row()->id);
+			$data['folder'] = 'frontend';
+			$data['template'] = 'cart';
+			$data['title'] = 'AWPL Cart';
+			$this->load->view('layout', $data);
+		}
+	}
+	public function delete_cart($id)
+	{
+		if ($this->CartModel->delete($id)) {
+			$this->session->set_flashdata('log_suc', 'Removed');
+			redirect($_SERVER['HTTP_REFERER'], 'refresh');
+		}
 	}
 	public function login()
 	{

@@ -42,7 +42,7 @@ var incrementMinus = buttonMinus.click(function() {
   .parent(".qty-container")
   .find(".input-qty");
   var amount = Number($n.val());
-  if (amount > 0) {
+  if (amount > 1) {
     $n.val(amount-1);
   }
 });

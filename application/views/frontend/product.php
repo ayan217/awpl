@@ -133,24 +133,32 @@
 			</div>
 
 			<div class="col-md-6">
-				<div class="product-all-dtls">
-					<!-- <p class="stoke">In Stoke</p> -->
-					<h2 class="prdct-name"><?= $product->name ?></h2>
-					<h3 class="prdct-rps"><?= user_login_check() == true ? CURRENCY . ' ' . $product_rate['total_product_price'] : '' ?></h3>
-					<span class="prdct-size">Size</span>
-					<div class="bottle-size">
-						<p class="ml-qnty"><?= $product->size ?></p>
-					</div>
-					<span class="prdct-size">Quantity</span>
-					<div class="qun-t-cls prdct-nw-qnty">
-						<div class="qty-container">
-							<button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
-							<input type="text" name="qty" value="0" class="input-qty">
-							<button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+				<form action="<?= base_url('cart') ?>" method="post">
+					<input type="hidden" name="product_id" value='<?= $product->id ?>'>
+					<input type="hidden" name="dpot_id" value='<?= $product->dpot_id ?>'>
+					<div class="product-all-dtls">
+						<!-- <p class="stoke">In Stoke</p> -->
+						<h2 class="prdct-name"><?= $product->name ?></h2>
+						<h3 class="prdct-rps"><?= user_login_check() == true ? CURRENCY . ' ' . $product_rate['total_product_price'] : '' ?></h3>
+						<span class="prdct-size">Size</span>
+						<div class="bottle-size">
+							<p class="ml-qnty"><?= $product->size ?></p>
+						</div>
+						<span class="prdct-size">Quantity</span>
+						<div class="qun-t-cls prdct-nw-qnty">
+							<div class="qty-container">
+								<button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
+								<input type="number" name="qnty" value="1" class="input-qty" required readonly>
+								<button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-same-all">Add to Cart</button>
+						<div>
+							<small class='text-success'><?= $this->session->flashdata('log_suc') ? $this->session->flashdata('log_suc') : '' ?></small>
+							<small class='text-danger'><?= $this->session->flashdata('log_err') ? $this->session->flashdata('log_err') : '' ?></small>
 						</div>
 					</div>
-					<button class="btn btn-same-all">Add to Cart</button>
-				</div>
+				</form>
 			</div>
 
 			<div class="col-md-12">
