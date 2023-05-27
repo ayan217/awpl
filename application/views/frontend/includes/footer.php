@@ -84,6 +84,7 @@
 <!--Slick Slider-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <script src="<?= ASSET_URL ?>frontend/js/custom.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script>
 	//Aos Block page
 	AOS.init({

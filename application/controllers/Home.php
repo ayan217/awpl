@@ -284,13 +284,6 @@ class Home extends CI_Controller
 		$this->session->sess_destroy();
 		redirect(BASE_URL, 'refresh');
 	}
-	public function thankyou()
-	{
-		$data['folder'] = 'frontend';
-		$data['template'] = 'thankyou';
-		$data['title'] = 'AWPL Thank You';
-		$this->load->view('layout', $data);
-	}
 	public function checkout()
 	{
 		if ($this->input->post('checkout')) {
@@ -317,6 +310,7 @@ class Home extends CI_Controller
 				$data = [
 					'product_id' => $orderlist->product_id,
 					'qnty' => $orderlist->qnty,
+					'price' => $product_data['total_product_price'],
 				];
 				$orderlist_id = $this->OrderModel->add2($data);
 
@@ -354,6 +348,11 @@ class Home extends CI_Controller
 				'created_at' => $created_at,
 			];
 			$order_data_id = $this->OrderModel->add($order_data);
+			$order_id = 'OR' . str_pad($order_data_id, 6, '0', STR_PAD_LEFT);
+			$order_id_data = [
+				'order_no' => $order_id
+			];
+			$this->OrderModel->update($order_id_data, $order_data_id);
 			if ($order_data_id !== false) {
 				//invoice mail
 				if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['HTTP_HOST'] == 'localhost') {
@@ -370,4 +369,167 @@ class Home extends CI_Controller
 			redirect($_SERVER['HTTP_REFERER']);
 		}
 	}
+	public function about()
+	{
+		$data['folder'] = 'frontend';
+		$data['template'] = 'about';
+		$data['title'] = 'AWPL About';
+		$this->load->view('layout', $data);
+	}
+	public function faq()
+	{
+		$data['folder'] = 'frontend';
+		$data['template'] = 'faq';
+		$data['title'] = 'AWPL FAQ';
+		$this->load->view('layout', $data);
+	}
+	public function contact()
+	{
+		$data['folder'] = 'frontend';
+		$data['template'] = 'contact';
+		$data['title'] = 'AWPL Contact';
+		$this->load->view('layout', $data);
+	}
+	public function thankyou()
+	{
+		$data['folder'] = 'frontend';
+		$data['template'] = 'thankyou';
+		$data['title'] = 'AWPL Thank You';
+		$this->load->view('layout', $data);
+	}
+	public function myaccount($type = 0)
+	{
+		$data['orders'] = $this->OrderModel->getorderbyuser(logged_in_user_row()->id, $type);
+		$data['type'] = $type;
+		$data['folder'] = 'frontend';
+		$data['template'] = 'my_account';
+		$data['title'] = 'AWPL Account';
+		$this->load->view('layout', $data);
+	}
+	public function show_order_detail($id)
+	{
+		$order_row = $this->OrderModel->getorderbyid($id);
+		$order_no = $order_row->order_no;
+		$depot_name = $order_row->depot_name;
+		$total = $order_row->total;
+		$orderlist_ids = $order_row->orderlist_ids;
+		$ids_array = explode(',', $orderlist_ids);
+?>
+		<div class="modal-header">
+			<h2 class="modal-title" id="exampleModalLabel">Order Number <span><?= $order_no ?></span></h2>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<i class="fa-solid fa-xmark"></i>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="responsive-table-all cart-table">
+						<table>
+							<thead>
+								<tr>
+									<th scope="col">Product</th>
+									<th scope="col">Price</th>
+									<th scope="col">Qty.</th>
+									<th class="with-unset" scope="col">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								foreach ($ids_array as $item) {
+									$item_row = $this->OrderModel->getorderlistbyid($item);
+									$img_src = GET_UPLOADS . 'products/' . $item_row->product_img;
+									$product_name = $item_row->product_name;
+									$product_size = $item_row->product_size;
+									$price = $item_row->price;
+									$qnty = $item_row->qnty;
+									$total_p = $price * $qnty;
+								?>
+									<tr>
+										<td data-label="Product">
+											<div class="prodct-wth-img justify-unset">
+												<div class="prdct-main-img">
+													<img width="50" src="<?=$img_src?>" alt="image">
+												</div>
+												<div class="prdct-nm-here">
+													<p><?= $product_name ?></p>
+													<span><?= $product_size ?></span>
+												</div>
+											</div>
+										</td>
+										<td data-label="Price"><?= CURRENCY . ' ' . $price ?></td>
+										<td class="qun-t-cls" data-label="Qty."><?= $qnty ?></td>
+										<td data-label="Total"><?= CURRENCY . ' ' . $total_p ?></td>
+									</tr>
+								<?php
+								}
+								?>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="mobile-cart-product">
+						<?php
+						foreach ($ids_array as $item) {
+							$item_row = $this->OrderModel->getorderlistbyid($item);
+							$img_src = GET_UPLOADS . 'products/' . $item_row->product_img;
+							$product_name = $item_row->product_name;
+							$price = $item_row->price;
+							$qnty = $item_row->qnty;
+							$total_p = $price * $qnty;
+						?>
+							<div class="product-cntnt borer-btm-c">
+								<div class="prduct-cntnt-img">
+									<img src="images/prdct1.png" alt="img">
+								</div>
+								<div class="rspnv-prdct-dtls-mob w-90-cart">
+									<div class="prdct-name-here">
+										<p><?= $product_name ?><span class="ml-btl"><?= $product_size ?></span></p><span><?= $qnty ?></span> <span><?= CURRENCY . ' ' . $total_p ?></span>
+									</div>
+								</div>
+							</div>
+						<?php
+						}
+						?>
+						<div class="price-qunty mob-sub-bg">
+							<p class="price-txt">Sub Total</p>
+							<p class="price-txt"><?= CURRENCY . ' ' . $total ?></p>
+						</div>
+						<div class="price-qunty mob-sub-bg">
+							<p class="price-txt">Depot No.</p>
+							<p class="price-txt"><?= $depot_name ?></p>
+						</div>
+						<div class="price-qunty total-pay">
+							<p class="price-txt">Total</p>
+							<p class="price-txt fnt-bold"><?= CURRENCY . ' ' . $total ?></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-7"></div>
+				<div class="col-md-5">
+					<div class="sub-total-new">
+						<div class="total-nmbr mb-3">
+							<p>Sub Total</p>
+							<p><?= CURRENCY . ' ' . $total ?></p>
+						</div>
+						<div class="total-nmbr mb-3">
+							<p>Depot No</p>
+							<p><?= $depot_name ?></p>
+						</div>
+						<div class="total-nmbr">
+							<p>Total</p>
+							<p style="font-size: 20px;"><?= CURRENCY . ' ' . $total ?></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<div class="close-btn-btm">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+<?php
+	}
 }
+?>
