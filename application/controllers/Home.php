@@ -449,7 +449,7 @@ class Home extends CI_Controller
 										<td data-label="Product">
 											<div class="prodct-wth-img justify-unset">
 												<div class="prdct-main-img">
-													<img width="50" src="<?=$img_src?>" alt="image">
+													<img width="50" src="<?= $img_src ?>" alt="image">
 												</div>
 												<div class="prdct-nm-here">
 													<p><?= $product_name ?></p>
@@ -480,7 +480,7 @@ class Home extends CI_Controller
 						?>
 							<div class="product-cntnt borer-btm-c">
 								<div class="prduct-cntnt-img">
-									<img src="images/prdct1.png" alt="img">
+									<img width="50" src="<?= $img_src ?>" alt="image">
 								</div>
 								<div class="rspnv-prdct-dtls-mob w-90-cart">
 									<div class="prdct-name-here">
