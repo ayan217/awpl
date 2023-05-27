@@ -60,6 +60,7 @@ $route['login'] = 'Home/login';
 $route['logout'] = 'Home/logout';
 $route['signup'] = 'Home/signup';
 $route['shop-now'] = 'Home/shop_now';
+$route['thank-you'] = 'Home/thankyou';
 $route['cart'] = 'Home/cart';
 $route['delete-cart/(:num)'] = 'Home/delete_cart/$1';
 $route['product/(:num)'] = 'Home/product/$1';

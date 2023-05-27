@@ -64,7 +64,6 @@ class Home extends CI_Controller
 		$data['title'] = 'AWPL Shop';
 		$this->load->view('layout', $data);
 	}
-
 	public function cart()
 	{
 		if ($this->input->post()) {
@@ -285,6 +284,13 @@ class Home extends CI_Controller
 		$this->session->sess_destroy();
 		redirect(BASE_URL, 'refresh');
 	}
+	public function thankyou()
+	{
+		$data['folder'] = 'frontend';
+		$data['template'] = 'thankyou';
+		$data['title'] = 'AWPL Thank You';
+		$this->load->view('layout', $data);
+	}
 	public function checkout()
 	{
 		if ($this->input->post('checkout')) {
@@ -302,19 +308,40 @@ class Home extends CI_Controller
 			}
 		} elseif ($this->input->post('checkout_p')) {
 			$cart_items = $this->CartModel->getcart(logged_in_user_row()->id);
+			$html = '';
 			foreach ($cart_items as $orderlist) {
 				$product_data = $this->ProductModel->getproductcalculateddetails($orderlist->product_id, $orderlist->user_id);
+				$product_row = $this->ProductModel->getproduct($orderlist->product_id);
+				$product_type = $product_row->type;
+
 				$data = [
 					'product_id' => $orderlist->product_id,
 					'qnty' => $orderlist->qnty,
 				];
 				$orderlist_id = $this->OrderModel->add2($data);
+
+				$html .= '<div>';
+				$html .= 'Name: ' . $product_row->name;
+				$html .= 'Price: ' . CURRENCY . ' ' . $product_data['actual_price'];
+				$html .= 'Discount: '  . CURRENCY . ' ' . $product_data['discount'];
+				$html .= 'Net Amount: '  . CURRENCY . ' ' . $product_data['net_amount'];
+				if ($product_type == '1') {
+					$html .= 'Excise Duty: '  . CURRENCY . ' ' . $product_data['exc_am'];
+				} else {
+					$html .= 'TDS: '  . CURRENCY . ' ' . $product_data['tds_amount'];
+				}
+				$html .= 'Amount: '  . CURRENCY . ' ' . $product_data['total_product_price'];
+				$html .= 'Quantity: '  . $orderlist->qnty;
+				$html .= 'Total: '  . ($orderlist->qnty * $product_data['total_product_price']);
+				$html .= '</div>';
+
 				$orderlist_ids_array[] = $orderlist_id;
 				$this->CartModel->delete($orderlist->id);
 			}
 			$orderlist_ids = implode(',', $orderlist_ids_array);
 			$dpot_id = $this->input->post('dpot_id');
 			$total = $this->input->post('total');
+			$html .= '<div>Order Total: ' . CURRENCY . ' ' . $total . '</div>';
 			$user_id = logged_in_user_row()->id;
 			$status = 0;
 			$created_at = date('Y-m-d H:i:s');
@@ -328,10 +355,16 @@ class Home extends CI_Controller
 			];
 			$order_data_id = $this->OrderModel->add($order_data);
 			if ($order_data_id !== false) {
-				$data['folder'] = 'frontend';
-				$data['template'] = 'thankyou';
-				$data['title'] = 'AWPL Thank You';
-				$this->load->view('layout', $data);
+				//invoice mail
+				if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['HTTP_HOST'] == 'localhost') {
+					// code to run if server is localhost
+				} else {
+					$to_mail = logged_in_user_row()->email;
+					$subject = 'AWPL Order Invoice';
+					$this->multipleNeedsModel->mail($to_mail, $subject, $html);
+				}
+				//mail end
+				redirect('thank-you');
 			}
 		} else {
 			redirect($_SERVER['HTTP_REFERER']);

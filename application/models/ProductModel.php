@@ -60,17 +60,19 @@ class ProductModel extends CI_Model
 				$user_row = $this->UserModel->getuser($user_id);
 				$user_type = $user_row->type;
 				if ($user_type == 5) {
+					$exc_am = $dist_fee_amount;
 					$total_product_price = $net_amount + $dist_fee_amount + $pri_fee_amount;
 				} else if ($user_type == 4) {
+					$exc_am = $dist_fee_amount + $excise_duty_amount;
 					$total_product_price = $net_amount + $excise_duty_amount + $dist_fee_amount + $pri_fee_amount;
 				}
 			}
-			$data = compact('actual_price', 'net_amount', 'excise_duty_amount', 'total_product_price');
+			$data = compact('actual_price', 'net_amount', 'excise_duty_amount', 'total_product_price', 'discount', 'exc_am');
 		} else {
 			$tds_rate = $product_row->tds;
 			$tds_amount = ($net_amount * $tds_rate) / 100;
 			$total_product_price = $net_amount - $tds_amount;
-			$data = compact('actual_price', 'net_amount', 'tds_amount', 'total_product_price');
+			$data = compact('actual_price', 'net_amount', 'tds_amount', 'total_product_price', 'discount');
 		}
 		return $data;
 	}
