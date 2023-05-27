@@ -45,29 +45,37 @@ if (user_login_check() == true) {
 					<?php
 					} else {
 					?>
-						<!-- Welcome, <?= logged_in_user_row()->full_name ?> -->
+						<li class="nav-item mob-show-only">
+							<a class="nav-link" href="log-in.html">My Account</a>
+						</li>
+						<li class="nav-item mob-show-only log-out-my-acnt">
+							<a class="nav-link" href="<?= base_url('logout') ?>">Log Out</a><span>("<?= logged_in_user_row()->full_name ?>")</span>
+						</li>
 					<?php
 					}
 					?>
 				</ul>
 				<div class="social-links dsk-social-links">
 					<ul>
-						<li><a href="<?= base_url('cart') ?>" style="position: relative;"><img src="<?= ASSET_URL ?>frontend/images/cartimg.png" alt="" class="bskt"><span class="add-cart"><?= $cart_count ?></span></a></li>
 						<?php
 						if (user_login_check() == false) {
 						?>
+							<li><a href="<?= base_url('cart') ?>" style="position: relative;"><img src="<?= ASSET_URL ?>frontend/images/cartimg.png" alt="" class="bskt"><span class="add-cart"><?= $cart_count ?></span></a></li>
 							<li><a href="<?= base_url('login') ?>">LOGIN</a></li>
 							<li><a href="<?= BASE_URL ?>signup" class="scl-nav-btn">Sign up</a></li>
+							<li><a href="<?= base_url('') ?>"><i class="fa-brands fa-facebook-f"></i></a></li>
+							<li><a href="<?= base_url('') ?>"><i class="fa-brands fa-linkedin-in"></i></a></li>
+							<li><a href="<?= base_url('') ?>" style="margin-right: 0;"><i class="fa-brands fa-instagram"></i></a></li>
 						<?php
 						} else {
 						?>
-							<b> <?= logged_in_user_row()->full_name ?>&nbsp;</b>
+							<li><a href="#">Hi, <?= logged_in_user_row()->full_name ?></a></li>
+							<li><a href="#">My Account</a></li>
+							<li><a href="<?= base_url('logout') ?>" class="scl-nav-btn">Logout</a></li>
+							<li><a href="<?= base_url('cart') ?>" style="position: relative;"><img src="<?= ASSET_URL ?>frontend/images/cartimg.png" alt="" class="bskt"><span class="add-cart"><?= $cart_count ?></span></a></li>
 						<?php
 						}
 						?>
-						<li><a href="<?= base_url('') ?>"><i class="fa-brands fa-facebook-f"></i></a></li>
-						<li><a href="<?= base_url('') ?>"><i class="fa-brands fa-linkedin-in"></i></a></li>
-						<li><a href="<?= base_url('') ?>" style="margin-right: 0;"><i class="fa-brands fa-instagram"></i></a></li>
 					</ul>
 				</div>
 			</div>

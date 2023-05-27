@@ -49,18 +49,13 @@
 						</thead>
 						<tbody>
 							<?php
+							$sub_total = 0;
 							if (!empty($cart_data)) {
-								$sub_total = 0;
 								$this->load->model('ProductModel');
 								$this->load->model('CartModel');
 								foreach ($cart_data as $cart) {
 									$product_data = $this->ProductModel->getproductcalculateddetails($cart->product_id, $cart->user_id);
 									$productTypes[] = $cart->product_type;
-
-									$dpots[] = array(
-										'name' => $cart->depot_name,
-										'id' => $cart->id
-									);
 							?>
 									<tr>
 										<td data-label="Product">
@@ -90,9 +85,9 @@
 							<?php
 									$sub_total += ($product_data['total_product_price'] * $cart->qnty);
 								}
+								$productTypes = array_unique($productTypes);
+								$dpots = $this->CartModel->getDpotIdsByProductTypes($productTypes);
 							}
-							$productTypes = array_unique($productTypes);
-							$dpots = $this->CartModel->getDpotIdsByProductTypes($productTypes);
 							?>
 						</tbody>
 					</table>
@@ -181,46 +176,48 @@
 
 			<div class="col-md-4 max-30">
 				<div class="ordr-smry">
-					<h3>Order Summary</h3>
-					<div class="sub-total">
-						<p>Sub Total</p>
-						<p><?= CURRENCY . ' ' . number_format($sub_total, 2) ?></p>
-					</div>
+					<form action="<?= base_url('Home/checkout') ?>" method="post">
+						<input type="hidden" name="total" value="<?= $sub_total ?>">
+						<h3>Order Summary</h3>
+						<div class="sub-total">
+							<p>Sub Total</p>
+							<p><?= CURRENCY . ' ' . number_format($sub_total, 2) ?></p>
+						</div>
 
-					<div class="sub-total">
-						<p>Depot</p>
-						<?php
-						if (logged_in_user_row()->type !== '3') {
-						?>
-							<p><?= $cart->depot_name ?></p>
-
-							<input type="hidden" class="form-control" name="dpot_id" id="" aria-describedby="helpId" placeholder="" value='<?= $cart->dpot_id ?>' required>
-
+						<div class="sub-total">
+							<p>Depot</p>
 							<?php
-						} else {
-							if (!empty($dpots)) {
+							if (logged_in_user_row()->type !== '3') {
 							?>
-								<div class="form-group">
-									<label for=""></label>
-									<select class="form-control" name="dpot_id" id="" required>
-										<?php
+								<p><?= !empty($cart) ? $cart->depot_name : '' ?></p>
 
-										foreach ($dpots as $dpo_id) {
+								<input type="hidden" class="form-control" name="dpot_id" id="" aria-describedby="helpId" placeholder="" value='<?= !empty($cart) ? $cart->dpot_id : '' ?>' required>
 
-										?>
-											<option value='<?= $dpo_id->dpot_id ?>'><?= $dpo_id->name ?></option>
-										<?php
-										}
-										?>
-									</select>
-								</div>
-						<?php
+								<?php
+							} else {
+								if (!empty($dpots)) {
+								?>
+									<div class="form-group">
+										<label for=""></label>
+										<select class="form-control" name="dpot_id" id="" required>
+											<?php
+
+											foreach ($dpots as $dpo_id) {
+
+											?>
+												<option value='<?= $dpo_id->dpot_id ?>'><?= $dpo_id->name ?></option>
+											<?php
+											}
+											?>
+										</select>
+									</div>
+							<?php
+								}
 							}
-						}
-						?>
-					</div>
+							?>
+						</div>
 
-					<!-- <div class="prmo-cod">
+						<!-- <div class="prmo-cod">
 						<p>Promocode</p>
 						<div class="field" id="searchform">
 							<input type="text" id="searchterm" />
@@ -229,11 +226,13 @@
 						<div class="whit-line"></div>
 					</div> -->
 
-					<div class="sub-total">
-						<p>Total</p>
-						<p class="fnt-18"><?= CURRENCY . ' ' . number_format($sub_total, 2) ?></p>
-					</div>
-					<button class="btn btn-same-all abt-btn pding-18">Proceed to ckeckout</button>
+						<div class="sub-total">
+							<p>Total</p>
+							<p class="fnt-18"><?= CURRENCY . ' ' . number_format($sub_total, 2) ?></p>
+						</div>
+						<input type="hidden" name="checkout" value="1">
+						<button type="submit" class="btn btn-same-all abt-btn pding-18">Proceed to ckeckout</button>
+					</form>
 				</div>
 			</div>
 		</div>

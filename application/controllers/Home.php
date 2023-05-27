@@ -7,6 +7,7 @@ class Home extends CI_Controller
 		parent::__construct();
 		$this->load->model('CartModel');
 		$this->load->model('ProductModel');
+		$this->load->model('OrderModel');
 	}
 	public function index()
 	{
@@ -279,5 +280,57 @@ class Home extends CI_Controller
 	{
 		$this->session->sess_destroy();
 		redirect(BASE_URL, 'refresh');
+	}
+	public function checkout()
+	{
+		if ($this->input->post('checkout')) {
+			$total = $this->input->post('total');
+			if ($total > 0) {
+				$dpot_id = $this->input->post('dpot_id');
+				$data['amount'] = $total;
+				$data['dpot_id'] = $dpot_id;
+				$data['folder'] = 'frontend';
+				$data['template'] = 'checkout';
+				$data['title'] = 'AWPL Checkout';
+				$this->load->view('layout', $data);
+			} else {
+				redirect($_SERVER['HTTP_REFERER']);
+			}
+		} elseif ($this->input->post('checkout_p')) {
+			$cart_items = $this->CartModel->getcart(logged_in_user_row()->id);
+			foreach ($cart_items as $orderlist) {
+				$product_data = $this->ProductModel->getproductcalculateddetails($orderlist->product_id, $orderlist->user_id);
+				$data = [
+					'product_id' => $orderlist->product_id,
+					'qnty' => $orderlist->qnty,
+				];
+				$orderlist_id = $this->OrderModel->add2($data);
+				$orderlist_ids_array[] = $orderlist_id;
+				$this->CartModel->delete($orderlist->id);
+			}
+			$orderlist_ids = implode(',', $orderlist_ids_array);
+			$dpot_id = $this->input->post('dpot_id');
+			$total = $this->input->post('total');
+			$user_id = logged_in_user_row()->id;
+			$status = 0;
+			$created_at = date('Y-m-d H:i:s');
+			$order_data = [
+				'user_id' => $user_id,
+				'dpot_id' => $dpot_id,
+				'orderlist_ids' => $orderlist_ids,
+				'total' => $total,
+				'status' => $status,
+				'created_at' => $created_at,
+			];
+			$order_data_id = $this->OrderModel->add($order_data);
+			if ($order_data_id !== false) {
+				$data['folder'] = 'frontend';
+				$data['template'] = 'thankyou';
+				$data['title'] = 'AWPL Thank You';
+				$this->load->view('layout', $data);
+			}
+		} else {
+			redirect($_SERVER['HTTP_REFERER']);
+		}
 	}
 }
