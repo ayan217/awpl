@@ -33,7 +33,7 @@
 			<div class="col-md-9 max-65">
 				<div class="ordr-hding">
 					<h3>Shopping Cart</h3>
-					<a href="#" class="cntnu-shping dsk-block">Continue Shopping <i class="fa-solid fa-arrow-right"></i></a>
+					<a href="<?= base_url('shop-now') ?>" class="cntnu-shping dsk-block">Continue Shopping <i class="fa-solid fa-arrow-right"></i></a>
 				</div>
 
 				<div class="responsive-table-all cart-table">
@@ -93,83 +93,40 @@
 					</table>
 				</div>
 				<!-- mobile -->
-				<div class="mobile-cart-product">
+				<?php
+				if (!empty($cart_data)) {
+					foreach ($cart_data as $cart) {
+						$product_data = $this->ProductModel->getproductcalculateddetails($cart->product_id, $cart->user_id);
+				?>
+						<div class="mobile-cart-product">
 
-					<div class="product-cntnt">
-						<div class="prduct-cntnt-img">
-							<img src="images/prdct1.png" alt="img">
-						</div>
-						<div class="rspnv-prdct-dtls-mob">
-							<div class="prdct-name-here">
-								<p>Product Name </p><span>750ml</span><i class="fa-regular fa-trash-can"></i>
-							</div>
-							<div class="price-qunty">
-								<p class="price-txt">$8320.00</p>
-								<div class="qty-container">
-									<button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
-									<input type="text" name="qty" value="0" class="input-qty" />
-									<button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+							<div class="product-cntnt">
+								<div class="prduct-cntnt-img">
+									<img width="50" src="<?= GET_UPLOADS ?>products/<?= $cart->product_img ?>" alt="img">
+								</div>
+								<div class="rspnv-prdct-dtls-mob">
+									<div class="prdct-name-here">
+										<p><?= $cart->product_name ?></p><span><?= $cart->product_size ?></span><a href='<?= base_url('delete-cart/' . $cart->id) ?>'><i class="fa-regular fa-trash-can"></i></a>
+									</div>
+									<div class="price-qunty">
+										<p class="price-txt"><?= CURRENCY . ' ' . number_format($product_data['total_product_price'], 2) ?></p>
+										<div class="qty-container">
+											<button data-id="<?= $cart->id ?>" data-action="-" class="qty-btn-minus btn-light upqnty" type="button"><i class="fa fa-minus"></i></button>
+											<input readonly type="text" name="qnty<?= $cart->id ?>" value="<?= $cart->qnty ?>" class="input-qty" />
+											<button data-id="<?= $cart->id ?>" data-action="+" class="qty-btn-plus btn-light upqnty" type="button"><i class="fa fa-plus"></i></button>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="price-qunty total-pay">
-						<p class="price-txt">Total</p>
-						<p class="price-txt">$1200.00</p>
-					</div>
-				</div>
-
-				<div class="mobile-cart-product">
-
-					<div class="product-cntnt">
-						<div class="prduct-cntnt-img">
-							<img src="images/prdct2.png" alt="img">
-						</div>
-						<div class="rspnv-prdct-dtls-mob">
-							<div class="prdct-name-here">
-								<p>Product Name </p><span>750ml</span><i class="fa-regular fa-trash-can"></i>
-							</div>
-							<div class="price-qunty">
-								<p class="price-txt">$8320.00</p>
-								<div class="qty-container">
-									<button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
-									<input type="text" name="qty" value="0" class="input-qty" />
-									<button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
-								</div>
+							<div class="price-qunty total-pay">
+								<p class="price-txt">Total</p>
+								<p class="price-txt"><?= CURRENCY . ' ' . number_format($product_data['total_product_price'] * $cart->qnty, 2) ?></p>
 							</div>
 						</div>
-					</div>
-					<div class="price-qunty total-pay">
-						<p class="price-txt">Total</p>
-						<p class="price-txt">$1200.00</p>
-					</div>
-				</div>
-
-				<div class="mobile-cart-product">
-
-					<div class="product-cntnt">
-						<div class="prduct-cntnt-img">
-							<img src="images/prdct3.png" alt="img">
-						</div>
-						<div class="rspnv-prdct-dtls-mob">
-							<div class="prdct-name-here">
-								<p>Product Name </p><span>750ml</span><i class="fa-regular fa-trash-can"></i>
-							</div>
-							<div class="price-qunty">
-								<p class="price-txt">$8320.00</p>
-								<div class="qty-container">
-									<button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
-									<input type="text" name="qty" value="0" class="input-qty" />
-									<button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="price-qunty total-pay">
-						<p class="price-txt">Total</p>
-						<p class="price-txt">$1200.00</p>
-					</div>
-				</div>
+				<?php
+					}
+				}
+				?>
 				<!-- mobile -->
 				<a href="<?= base_url('shop-now') ?>" class="cntnu-shping dsk-none"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
 			</div>

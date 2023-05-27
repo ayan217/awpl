@@ -112,11 +112,15 @@ class Home extends CI_Controller
 				redirect('login');
 			}
 		} else {
-			$data['cart_data'] = $this->CartModel->getcart(logged_in_user_row()->id);
-			$data['folder'] = 'frontend';
-			$data['template'] = 'cart';
-			$data['title'] = 'AWPL Cart';
-			$this->load->view('layout', $data);
+			if (user_login_check() == true) {
+				$data['cart_data'] = $this->CartModel->getcart(logged_in_user_row()->id);
+				$data['folder'] = 'frontend';
+				$data['template'] = 'cart';
+				$data['title'] = 'AWPL Cart';
+				$this->load->view('layout', $data);
+			} else {
+				redirect('login');
+			}
 		}
 	}
 	public function delete_cart($id)
