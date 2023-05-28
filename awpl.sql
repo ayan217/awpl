@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 26, 2023 at 01:32 PM
+-- Generation Time: May 28, 2023 at 08:26 AM
 -- Server version: 10.4.10-MariaDB
--- PHP Version: 7.4.16
+-- PHP Version: 7.4.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -38,24 +38,14 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `status` int(11) NOT NULL COMMENT '0=added,1=nostock',
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cart`
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `product_id`, `dpot_id`, `qnty`, `status`, `created_at`) VALUES
-(1, 20, 5, 4, '2', 0, '2023-05-26 15:44:07'),
-(8, 20, 7, 4, '1', 0, '2023-05-26 16:43:07'),
-(3, 20, 6, 4, '3', 1, '2023-05-26 15:46:29'),
-(10, 19, 2, 4, '1', 0, '2023-05-26 17:54:13'),
-(7, 21, 1, 4, '1', 0, '2023-05-26 16:06:21'),
-(9, 20, 1, 4, '3', 0, '2023-05-26 16:43:18'),
-(11, 19, 9, 1, '2', 0, '2023-05-26 18:08:53'),
-(12, 19, 10, 3, '3', 0, '2023-05-26 18:09:03'),
-(13, 19, 8, 1, '6', 0, '2023-05-26 18:25:09'),
-(14, 19, 3, 4, '10', 0, '2023-05-26 18:25:17'),
-(15, 19, 4, 4, '1', 0, '2023-05-26 18:46:04');
+(5, 21, 6, 4, '10', 1, '2023-05-27 14:48:40');
 
 -- --------------------------------------------------------
 
@@ -68,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `dpots` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
+  `phn` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
@@ -75,10 +66,77 @@ CREATE TABLE IF NOT EXISTS `dpots` (
 -- Dumping data for table `dpots`
 --
 
-INSERT INTO `dpots` (`id`, `name`, `address`) VALUES
-(1, 'Depot 1', 'Demo Depot Address'),
-(3, 'Depot 2', 'Demo Depot Address 2'),
-(4, 'Depot 3', 'Demo Depot Address 3');
+INSERT INTO `dpots` (`id`, `name`, `address`, `phn`) VALUES
+(1, 'Depot 1', 'Demo Depot Address', '8798254789'),
+(3, 'Depot 2', 'Demo Depot Address 2', '3698745126'),
+(4, 'Depot 3', 'Demo Depot Address 3', '6652547892');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orderdetails`
+--
+
+DROP TABLE IF EXISTS `orderdetails`;
+CREATE TABLE IF NOT EXISTS `orderdetails` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_no` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `dpot_id` int(11) NOT NULL,
+  `orderlist_ids` varchar(255) NOT NULL,
+  `total` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `orderdetails`
+--
+
+INSERT INTO `orderdetails` (`id`, `order_no`, `user_id`, `dpot_id`, `orderlist_ids`, `total`, `status`, `created_at`) VALUES
+(1, 'OR000001', 21, 4, '1,2,3', '229455.5', 1, '2023-05-27 17:50:28'),
+(2, 'OR000002', 21, 4, '4,5', '6693', 0, '2023-05-27 18:27:08'),
+(3, 'OR000003', 19, 4, '6,7', '2134', 0, '2023-05-27 19:01:15'),
+(4, 'OR000004', 20, 4, '8,9', '116360', 0, '2023-05-27 19:02:11'),
+(5, 'OR000005', 19, 4, '10,11', '2124.3', 1, '2023-05-28 11:30:54'),
+(6, 'OR000006', 19, 3, '12', '291', 0, '2023-05-28 12:12:36'),
+(7, 'OR000007', 19, 1, '13,14', '2832.4', 0, '2023-05-28 12:14:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orderlist`
+--
+
+DROP TABLE IF EXISTS `orderlist`;
+CREATE TABLE IF NOT EXISTS `orderlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `qnty` int(11) NOT NULL,
+  `price` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `orderlist`
+--
+
+INSERT INTO `orderlist` (`id`, `product_id`, `qnty`, `price`) VALUES
+(1, 3, 19, '873'),
+(2, 7, 2, '1380.25'),
+(3, 5, 6, '35018'),
+(4, 4, 6, '970'),
+(5, 2, 3, '291'),
+(6, 4, 1, '970'),
+(7, 2, 4, '291'),
+(8, 5, 3, '26984'),
+(9, 1, 2, '17704'),
+(10, 3, 2, '873'),
+(11, 10, 3, '126.1'),
+(12, 2, 1, '291'),
+(13, 8, 5, '465.6'),
+(14, 10, 4, '126.1');
 
 -- --------------------------------------------------------
 
@@ -156,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
@@ -164,8 +222,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `username`, `password`, `full_name`, `email`, `phone`, `address`, `type`, `dpot_id`, `l_name`, `l_number`, `l_vdate`, `dist`, `city`, `moq`, `v_type`, `v_number`, `agreement_file`, `status`, `sdepo`, `sdepo_status`, `updated_at`, `created_at`) VALUES
 (1, 'admin', '$2y$10$rCw5bkhD9eqkn/NOWWgX5OnrXo0kqycRhqxj.gGMVQeJNz97lxSX2', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-05-16 00:00:00'),
-(6, 'depoadmin123', '$2y$10$xVmhPDl1tDG4qH.T/8do4.xfgsJG9TYHv4vwVCy1CqWNP4B5Y1Tz2', 'Depot Admin', 'depotadmin@yopmail.com', '9804006966', NULL, 1, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-05-17 12:07:11', '2023-05-17 10:42:37'),
-(7, 'manage123', '$2y$10$vEPxT0KZmYEFH.fIettITeW/iQw8N6/kzIqKZhpjUfCscoffF8hn2', 'Management Staff', 'management@yopmail.com', '3645879521', NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-05-17 18:25:47', '2023-05-17 10:50:06'),
+(6, 'depoadmin123', '$2y$10$rCw5bkhD9eqkn/NOWWgX5OnrXo0kqycRhqxj.gGMVQeJNz97lxSX2', 'Depot Admin', 'depotadmin@yopmail.com', '9804006966', NULL, 1, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-05-17 12:07:11', '2023-05-17 10:42:37'),
+(7, 'manage123', '$2y$10$rCw5bkhD9eqkn/NOWWgX5OnrXo0kqycRhqxj.gGMVQeJNz97lxSX2', 'Management Staff', 'management@yopmail.com', '3645879521', NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-05-17 18:25:47', '2023-05-17 10:50:06'),
 (9, 'gencust123', '$2y$10$M3hraBKTYIfHREMPttwg9.e/7YRdTvWr3b1kqfCX1li2Mo.VI1f.2', 'Gen Cust', 'gencust@yopmail.com', NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2023-05-18 10:18:18'),
 (12, 'kadeemholmes123', '$2y$10$1wsPmq5PvJYhcCkBh2c5Ge1M4ZNePTMFb66aJ.BwvbSNQdr9tOnem', 'Kadeem Holmes', 'jonu@mailinator.com', '5202569874', 'Qui doloribus porro ', 5, 2, 'Rahim Gilbert', '446654789245', '2007-02-24', 'Aliquip commodo maxi', 'Explicabo Numquam e', 32, 'Doloribus quo possim', 'BHU-srw-853', 'Kadeem_Holmes_contract_agreement.pdf', 1, '2000', 1, NULL, '2023-05-18 13:26:21'),
 (13, 'suwog', '$2y$10$KBY5a/JNDTLF3OisHm.T3eJma8E8sTT99b8aiv1qufDBOuYSZ2p.a', 'Igor Hull', 'lidyx@mailinator.com', NULL, NULL, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, '2023-05-18 13:26:36'),
