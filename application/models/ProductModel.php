@@ -67,7 +67,7 @@ class ProductModel extends CI_Model
 					$total_product_price = $net_amount + $excise_duty_amount + $dist_fee_amount + $pri_fee_amount;
 				}
 			}
-			$data = compact('actual_price', 'net_amount', 'excise_duty_amount', 'total_product_price', 'discount', 'exc_am');
+			$data = compact('actual_price', 'net_amount', 'excise_duty_amount', 'total_product_price', 'discount', 'exc_am', 'pri_fee_amount');
 		} else {
 			$tds_rate = $product_row->tds;
 			$tds_amount = ($net_amount * $tds_rate) / 100;
