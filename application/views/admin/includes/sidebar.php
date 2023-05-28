@@ -38,5 +38,11 @@
 					<span class="menu-title">Manage Products</span>
 				</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<?= ADMIN_URL ?>Orders">
+					<i class="mdi mdi-grid-large menu-icon"></i>
+					<span class="menu-title">Manage Orders</span>
+				</a>
+			</li>
 		</ul>
 	</nav>

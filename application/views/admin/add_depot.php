@@ -26,6 +26,10 @@
 								<label for="exampleInputEmail1">Address</label>
 								<textarea required type="text" name="address" placeholder="Address" class="form-control"><?= !empty($depot_data) ? $depot_data->address : '' ?></textarea>
 							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail1">Phone</label>
+								<input type="text" name="phn" placeholder="Phone no" class="form-control" value="<?= !empty($depot_data) ? $depot_data->phn : '' ?>">
+							</div>
 						</div>
 						<button type="submit" class="btn btn-success"><?= !empty($meal_data) ? 'Update' : 'Add' ?></button>
 					</form>

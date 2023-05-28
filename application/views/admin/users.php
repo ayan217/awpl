@@ -67,7 +67,7 @@
 											if (admin_type() == SUPER) {
 											?>
 												<td>
-													<a href="<?= ADMIN_URL ?>user/edit/<?= $user->id ?>" class="btn btn-warning">Edit</a>
+													<!-- <a href="<?= ADMIN_URL ?>user/edit/<?= $user->id ?>" class="btn btn-warning">Edit</a> -->
 													<a href="<?= ADMIN_URL ?>user/delete/<?= $user->id ?>" class="btn btn-danger">Delete</a>
 												</td>
 											<?php

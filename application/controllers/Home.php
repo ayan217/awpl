@@ -8,6 +8,7 @@ class Home extends CI_Controller
 		$this->load->model('CartModel');
 		$this->load->model('ProductModel');
 		$this->load->model('OrderModel');
+		$this->load->model('DpotModel');
 	}
 	public function index()
 	{
@@ -334,6 +335,10 @@ class Home extends CI_Controller
 			}
 			$orderlist_ids = implode(',', $orderlist_ids_array);
 			$dpot_id = $this->input->post('dpot_id');
+			$dpot_row = $this->DpotModel->getdepot($dpot_id);
+			$depo_address = $dpot_row->address;
+			$depo_phn = $dpot_row->phn;
+			$html .= 'Depot Details: '.$dpot_row->name. '( '.$depo_phn.' ) / '.$depo_address;
 			$total = $this->input->post('total');
 			$html .= '<div>Order Total: ' . CURRENCY . ' ' . $total . '</div>';
 			$user_id = logged_in_user_row()->id;

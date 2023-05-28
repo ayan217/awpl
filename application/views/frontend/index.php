@@ -1,3 +1,25 @@
+<!-- Age verification prompt -->
+<div class="modal fade" id="age-verification" tabindex="-1" role="dialog" aria-labelledby="age-verification-title" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="age-verification-title">Age Verification</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Please confirm that you are 18 years or older to access this website.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="confirm-age">I am 18+</button>
+				<button type="button" class="btn btn-secondary" id="reject-age">I am not 18</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <!--Banner Section-->
 <div class="main-banner" style="background: url(<?= ASSET_URL ?>frontend/images/banner-img.jpg);">
 	<div class="mob-social-links">
@@ -13,7 +35,7 @@
 				<div class="banner-text">
 					<h1>Buy Products</h1>
 					<h6>Form Army welfare project Limited </h6>
-					<a href="<?=base_url('shop-now')?>" class="btn btn-same-all">Shop Now</a>
+					<a href="<?= base_url('shop-now') ?>" class="btn btn-same-all">Shop Now</a>
 				</div>
 			</div>
 			<div class="col-md-6"></div>
@@ -68,7 +90,7 @@
 							</div>
 							<p><?= $product->name ?></p>
 							<div class="text-center">
-								<a href="<?=base_url('product/'.$product->id)?>" class="product-btn">Shop Now</a>
+								<a href="<?= base_url('product/' . $product->id) ?>" class="product-btn">Shop Now</a>
 							</div>
 						</div>
 					</div>
@@ -93,7 +115,7 @@
 					<div class="all-use-txt">
 						<h2 class="mb-2" style="color: #db651d;">Distributors</h2>
 						<p class="mb-4">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. </p>
-						<a href="<?=base_url('signup')?>" class="btn btn-same-all">Register Now</a>
+						<a href="<?= base_url('signup') ?>" class="btn btn-same-all">Register Now</a>
 					</div>
 				</div>
 			</div>
@@ -154,11 +176,39 @@
 	</div>
 </div>
 <script>
-	// $(document).ready(function() {
-	// 	var ageConfirmation = confirm("Are you 18 or older?");
-	// 	if (!ageConfirmation) {
-	// 		window.history.back();
-	// 	}
-	// });
+	$(document).ready(function() {
+		var ageConfirmed = false;
+
+		// Check if the age confirmation cookie exists
+		if (document.cookie.indexOf("ageConfirmation=1") > -1) {
+			ageConfirmed = true;
+		}
+
+		// If the age is not confirmed, show the verification prompt
+		if (!ageConfirmed) {
+			$('#age-verification').modal('show');
+		} else {
+			$('body').show(); // Show the body content if age is confirmed
+		}
+
+		// Handle the age confirmation
+		$("#confirm-age").click(function() {
+			// Set the age confirmation cookie to expire in 30 days
+			var expiryDate = new Date();
+			expiryDate.setDate(expiryDate.getDate() + 30);
+			document.cookie = "ageConfirmation=1; expires=" + expiryDate.toUTCString() + "; path=/";
+			ageConfirmed = true;
+
+			// Hide the verification prompt modal
+			$('#age-verification').modal('hide');
+			$('body').show(); // Show the body content after age is confirmed
+		});
+
+		// Handle the rejection of age confirmation
+		$("#reject-age").click(function() {
+			// Redirect to a different page or show an appropriate message
+			window.location.href = "<?= base_url('restricted') ?>";
+		});
+	});
 </script>
 <!--How Works Section-->

@@ -53,6 +53,23 @@ class OrderModel extends CI_Model
             return $query->result();
         }
     }
+    public function getallorder($dpot_id = null)    
+    {
+        $dpot_table = 'dpots';
+        $this->db->select($this->table_name . '.*, ' . $dpot_table . '.name as depot_name');
+        $this->db->from($this->table_name);
+        if ($dpot_id !== null) {
+            $this->db->where($this->table_name . '.dpot_id', $dpot_id);
+        }
+        $this->db->join($dpot_table, $dpot_table . '.id = ' . $this->table_name . '.dpot_id', 'left');
+        $this->db->order_by('id', 'DESC');
+        $query = $this->db->get();
+        if ($query->num_rows() == 0) {
+            return false;
+        } else {
+            return $query->result();
+        }
+    }
     public function getorderbyid($id)
     {
         $dpot_table = 'dpots';
